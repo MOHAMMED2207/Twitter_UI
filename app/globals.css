@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.ISdisabled:disabled {
+  opacity: 0.6;
+}
+.ISdisabled:disabled:hover {
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+}
+
+/* CSS */
+/* تعديل شكل الشريط الرأسي */
+::-webkit-scrollbar {
+  width: 4px; /* عرض الشريط */
+}
+
+/* تغيير لون الشريط وتطبيق تنعيم */
+::-webkit-scrollbar-track {
+  background-color: #161717; /* لون الشريط نفسه */
+  border-radius: 14px; /* شكل الحواف */
+}
+
+/* تخصيص المظهر عند تحريك الشريط */
+::-webkit-scrollbar-thumb {
+  background-color: #919191; /* لون خلفية المسار */
+  border-radius: 10px; /* شكل الحواف */
+}

@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "./package.json",
+        "use": "@vercel/static-build"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "https://twitter-backend-mauve.vercel.app/api/$1"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/Client/"
+      }
+    ]
+  }
+  
