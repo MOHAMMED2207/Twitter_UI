@@ -44,23 +44,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     retry: false,
   });
 
-  useEffect(() => {
-    const token = Cookies.get("jwt");
-    if (token) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, []);
-  useEffect(() => {
-    if (
-      pathname === "/pages/Home" ||
-      pathname === "/pages/Notifications" ||
-      pathname.includes(`/pages/Profile/${authUser?.username}`)
-    ) {
-      if (!Cookies.get("jwt")) router.push("/");
-    }
-  }, [pathname, isAuthenticated, authUser?.username, children, router]);
+  // useEffect(() => {
+  //   const token = Cookies.get("jwt");
+  //   if (token) {
+  //     setIsAuthenticated(true);
+  //   } else {
+  //     setIsAuthenticated(false);
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   if (
+  //     pathname === "/pages/Home" ||
+  //     pathname === "/pages/Notifications" ||
+  //     pathname.includes(`/pages/Profile/${authUser?.username}`)
+  //   ) {
+  //     if (!Cookies.get("jwt")) router.push("/");
+  //   }
+  // }, [pathname, isAuthenticated, authUser?.username, children, router]);
 
   return (
     <AuthContext.Provider value={{ authUser, isLoading, isAuthenticated }}>
