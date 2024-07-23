@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 type FormData = {
   email: String;
@@ -12,14 +13,17 @@ export const LoginAuth = ({ setFormData }: any) => {
   const { mutate, isError, isPending, error } = useMutation({
     mutationFn: async ({ email, Password }: FormData) => {
       try {
-        const res = await fetch("https://twitter-backend-mauve.vercel.app/api/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", // هذا التأكيد على إرسال الكوكيز
-          body: JSON.stringify({ email, Password }),
-        });
+        const res = await fetch(
+          "https://twitter-backend-mauve.vercel.app/api/auth/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // هذا التأكيد على إرسال الكوكيز
+            body: JSON.stringify({ email, Password }),
+          }
+        );
 
         const data = await res.json();
 
@@ -36,14 +40,15 @@ export const LoginAuth = ({ setFormData }: any) => {
     onSuccess: () => {
       toast.success("Login successfully");
       router.push("/pages/Home");
-      
+      Cookies.set("Succes", "200", { expires: 1 });
+
+
       setFormData({
         email: "",
         Password: "",
       });
 
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      
     },
   });
 
