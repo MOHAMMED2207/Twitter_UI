@@ -22,7 +22,7 @@ const MyFollowing = ({ type }: any) => {
       );
 
   return (
-    <div className="absolute rounded-lg z-[99999999999999999999999] p-4 bg-[#16181c]">
+    <div className="absolute rounded-lg z-[999999] p-4 bg-[#16181c]">
       <form className="relative border-b-2 border-[#2d2d2d] pb-2   flex justify-between items-center gap-2">
         <input
           type="text"
