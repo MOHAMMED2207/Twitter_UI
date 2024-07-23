@@ -59,7 +59,7 @@ const CreatePost = () => {
       </Link>
       <form className="flex flex-col gap-2 w-full" onSubmit={handleSubmit}>
         <textarea
-          className="h-17 text-black rounded-lg w-full p-3 text-lg resize-none border-none focus:outline-none border-gray-800"
+          className="h-17 bg-[#ffffff05] text-white rounded-lg w-full p-3 text-lg resize-none border-none focus:outline-none border-gray-800"
           placeholder="What is happening ?!"
           value={text}
           onChange={(e) => setText(e.target.value)}
