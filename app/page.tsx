@@ -10,7 +10,8 @@ const Page = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = Cookies.get("jwt");
+    const token = Cookies.get("Succes");
+    console.log(token);
 
     if (token) {
       setIsAuthenticated(true);
@@ -20,7 +21,9 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    const token = Cookies.get("Succes");
+
+    if (token) {
       router.push("/pages/Home");
     } else {
       router.push("/");
