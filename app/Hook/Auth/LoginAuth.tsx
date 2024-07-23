@@ -23,7 +23,7 @@ export const LoginAuth = ({ setFormData }: any) => {
 
         const data = await res.json();
 
-        // if (!res.ok) throw new Error(data.error || "Failed to create account");
+        if (!res.ok) throw new Error(data.error || "Failed to create account");
         console.log(data);
         console.log("is error" + error);
         return data;
