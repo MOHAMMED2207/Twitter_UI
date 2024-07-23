@@ -16,11 +16,13 @@ import ProfileHeaderSkeleton from "../../Components/skeletons/ProfileHeaderSkele
 import EditProfileModal from "./../../Hook/Profile/EditProfileModal";
 import { useUpdateUserProfile } from "../../Hook/Profile/updateProfile";
 import LoadingSpinner from "../../Components/coomon/LoadingSpinner";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import MyFollowing from "../../Components/MYFollowing";
 import { FollowButton } from "../../Hook/Follow/FollowButton";
 
 const ProfilePage = () => {
+  const router = useRouter();
+
   const { username }: any = useParams<{ tag: string; item: string }>();
   // ============================================================================
   const [showFollowers, setshowFollowers] = useState(false);
@@ -32,7 +34,6 @@ const ProfilePage = () => {
   const [profileImg, setProfileImg] = useState<any>(null);
   const coverImgRef = useRef<any>(null);
   const profileImgRef = useRef<any>(null);
-
 
   const { data: authUser } = useQuery<any>({ queryKey: ["authUser"] });
   const { user, isLoading, refetch, isRefetching, error } = MyProfile({
@@ -83,9 +84,9 @@ const ProfilePage = () => {
           {!isLoading && !isRefetching && !error && user && (
             <>
               <div className="flex gap-10 px-4 py-2 items-center">
-                <Link href="/pages/Home">
+                <button onClick={() => router.back()}>
                   <FaArrowLeft className="w-4 h-4" />
-                </Link>
+                </button>
                 <div className="flex flex-col">
                   <p className="font-bold text-lg">{user?.username}</p>
                   <span className="text-sm text-slate-500">
