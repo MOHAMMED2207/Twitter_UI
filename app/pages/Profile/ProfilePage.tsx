@@ -73,7 +73,7 @@ const ProfilePage = () => {
   const LengthPost = posts?.length > 0 ? posts?.length : 0;
 
   return (
-    <div className=" w-full h-[calc(100vh-56px)] lg:h-screen md:h-screen overflow-auto">
+    <div className=" w-full  h-[calc(100vh-56px)] lg:h-screen md:h-screen overflow-auto">
       <div className="flex-[4_4_0]   border-r border-gray-700 min-h-screen ">
         {/* HEADER */}
         {(isLoading || isRefetching) && <ProfileHeaderSkeleton />}
@@ -193,18 +193,16 @@ const ProfilePage = () => {
 
                 <div className="flex gap-2 flex-wrap">
                   {user?.link && (
-                    <div className="flex gap-1 max-w-6xl    items-center ">
-                      <>
-                        <FaLink className="w-3 h-3 text-slate-500" />
-                        <Link
-                          href={user?.link}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-sm truncate w-96 text-blue-500 hover:underline"
-                        >
-                          {user?.link}
-                        </Link>
-                      </>
+                    <div className="flex gap-1     items-center ">
+                      <FaLink className="w-3 h-3 text-slate-500" />
+                      <Link
+                        href={user?.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-sm truncate w-36 md:w-auto lg:w-auto text-blue-500 hover:underline"
+                      >
+                        {user?.link}
+                      </Link>
                     </div>
                   )}
                   <div className="flex gap-2 items-center">
