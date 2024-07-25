@@ -62,6 +62,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   //   }
   // }, [pathname, isAuthenticated, authUser?.username, children, router]);
 
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("http://localhost:5005/api/checkAuth", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const data = await res.json();
+        console.log(data);
+
+        if (res.status === 200) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+
+        if (
+          pathname === "/pages/Home" ||
+          pathname === "/pages/Notifications" ||
+          pathname.includes(`/pages/Profile/${authUser?.username}`)
+        ) {
+          if (res.status !== 200) router.push("/");
+        }
+      } catch (error) {
+        console.error("Not authenticated", error);
+      }
+    };
+    checkAuth();
+  }, [pathname, authUser?.username, router]);
+
   return (
     <AuthContext.Provider value={{ authUser, isLoading, isAuthenticated }}>
       {children}
