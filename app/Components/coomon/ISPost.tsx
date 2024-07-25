@@ -96,7 +96,7 @@ const ISPost = ({ post }: ISPostProps) => {
   return (
     <React.Fragment>
       <div className="flex flex-col">
-        <div className="flex  sm:flex-row gap-2 items-start border-t border-2 border-gray-800">
+        <div className="flex  sm:flex-row gap-2 items-start ">
           <Link href={`/pages/Profile/${postOwner.username}`}>
             <div className="avatar">
               <div className="relative w-10 h-10  md:h-14 lg:h-14 md:w-14 lg:w-14 rounded-full overflow-hidden">
@@ -239,7 +239,7 @@ const ISPost = ({ post }: ISPostProps) => {
                 </p>
               ) : (
                 post.comments.map((comment) => (
-                  <div key={comment._id} className="flex  border-y-2 py-2 border-[#393a3a] mt-4">
+                  <div key={comment._id} className="flex  border-t-2 py-2 border-[#393a3a] mt-4">
                     <Link href={`/pages/Profile/${comment.user.username}`}>
                       <div className="avatar">
                         <div className="relative w-10 h-10  md:h-14 lg:h-14 md:w-14 lg:w-14 rounded-full">
