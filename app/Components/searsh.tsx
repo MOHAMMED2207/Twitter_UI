@@ -9,11 +9,14 @@ const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   useEffect(() => {
+    const token = localStorage.getItem("jwt");
+
     if (searchTerm.length > 0 && searchTerm) {
-      fetch(`https://twitter-backend-mauve.vercel.app/api/searchUsers/${searchTerm}`, {
+      fetch(`http://localhost:5005/api/searchUsers/${searchTerm}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         credentials: "include",
       })
