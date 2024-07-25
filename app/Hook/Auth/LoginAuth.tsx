@@ -40,9 +40,6 @@ export const LoginAuth = ({ setFormData }: any) => {
     onSuccess: () => {
       toast.success("Login successfully");
       router.push("/pages/Home");
-      Cookies.set("Succes", "200", { expires: 1 });
-
-
       setFormData({
         email: "",
         Password: "",
