@@ -165,11 +165,14 @@ const ISPost = ({ post }: ISPostProps) => {
                   />
                 </div>
               )}
-              {post.video && (
-                <div className="relative   overflow-hidden">
+                 {post.video && (
+                <div className="relative overflow-hidden">
                   <video
                     controls
+                    preload="auto"
                     className="w-full min-h-[30rem] max-h-[37rem] object-contain rounded-lg border border-gray-700"
+                    onMouseEnter={(e) => e.currentTarget.play()}
+                    onMouseLeave={(e) => e.currentTarget.pause()}
                   >
                     <source src={post.video} type="video/mp4" />
                     Your browser does not support the video tag.
