@@ -96,7 +96,7 @@ const ISPost = ({ post }: ISPostProps) => {
   return (
     <React.Fragment>
       <div className="flex flex-col">
-        <div className="flex  sm:flex-row gap-2 items-start p-4 border-y border-gray-700">
+        <div className="flex  sm:flex-row gap-2 items-start p-2 border-t border-gray-800">
           <Link href={`/pages/Profile/${postOwner.username}`}>
             <div className="avatar">
               <div className="relative w-10 h-10  md:h-14 lg:h-14 md:w-14 lg:w-14 rounded-full overflow-hidden">
