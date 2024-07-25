@@ -24,10 +24,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     queryKey: ["authUser"],
     queryFn: async () => {
       try {
-        const res = await fetch("https://twitter-backend-mauve.vercel.app/api/auth/me", {
+        const token = localStorage.getItem("jwt");
+
+        const res = await fetch("http://localhost:5005/api/auth/me", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           credentials: "include",
         });
@@ -44,56 +47,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     retry: false,
   });
 
-  // useEffect(() => {
-  //   const token = Cookies.get("jwt");
-  //   if (token) {
-  //     setIsAuthenticated(true);
-  //   } else {
-  //     setIsAuthenticated(false);
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   if (
-  //     pathname === "/pages/Home" ||
-  //     pathname === "/pages/Notifications" ||
-  //     pathname.includes(`/pages/Profile/${authUser?.username}`)
-  //   ) {
-  //     if (!Cookies.get("jwt")) router.push("/");
-  //   }
-  // }, [pathname, isAuthenticated, authUser?.username, children, router]);
-
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const res = await fetch("https://twitter-backend-mauve.vercel.app/api/checkAuth", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
-        const data = await res.json();
-        console.log(data);
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
 
-        if (res.status === 200) {
-          setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
-
-        if (
-          pathname === "/pages/Home" ||
-          pathname === "/pages/Notifications" ||
-          pathname.includes(`/pages/Profile/${authUser?.username}`)
-        ) {
-          if (res.status !== 200) router.push("/");
-        }
-      } catch (error) {
-        console.error("Not authenticated", error);
-      }
-    };
-    checkAuth();
-  }, [pathname, authUser?.username, router]);
+    if (
+      pathname === "/pages/Home" ||
+      pathname === "/pages/Notifications" ||
+      pathname.includes(`/pages/Profile/${authUser?.username}`)
+    ) {
+      if (!token) router.push("/");
+    }
+  }, [pathname, isAuthenticated, authUser?.username, children, router]);
 
   return (
     <AuthContext.Provider value={{ authUser, isLoading, isAuthenticated }}>
