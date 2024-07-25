@@ -239,10 +239,10 @@ const ISPost = ({ post }: ISPostProps) => {
                 </p>
               ) : (
                 post.comments.map((comment) => (
-                  <div key={comment._id} className="flex mt-4">
+                  <div key={comment._id} className="flex  border-y-2 py-2 border-[#393a3a] mt-4">
                     <Link href={`/pages/Profile/${comment.user.username}`}>
                       <div className="avatar">
-                        <div className="relative w-14 h-14 rounded-full">
+                        <div className="relative w-10 h-10  md:h-14 lg:h-14 md:w-14 lg:w-14 rounded-full">
                           <Image
                             fill
                             alt="Post Image"
