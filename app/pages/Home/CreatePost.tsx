@@ -47,7 +47,7 @@ const CreatePost = () => {
     <div className="flex p-4 items-start gap-4 border-b border-gray-700">
       <Link href={`/pages/Profile/${authUser?.username}`}>
         <div className="avatar">
-          <div className="relative w-14 h-14 rounded-full overflow-hidden">
+          <div className="relative  w-10 h-10  md:h-14 lg:h-14 md:w-14 lg:w-14 rounded-full overflow-hidden">
             <Image
               fill
               alt="Profile Image"
