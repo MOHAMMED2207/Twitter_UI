@@ -21,6 +21,11 @@ const Sidebar = () => {
   const [Active, setActive] = useState("Home");
   const pathname = usePathname();
 
+  const handleReload = (path: string) => {
+    if (pathname === path) {
+      window.location.reload();
+    }
+  };
   useEffect(() => {
     if (
       pathname === "/pages/Notifications" ||
@@ -54,7 +59,10 @@ const Sidebar = () => {
                   Active === "Home" ? "bg-[#16181c]" : ""
                 } transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer`}
               >
-                <MdHomeFilled className="w-8 h-8" />
+                <MdHomeFilled
+                  onClick={() => handleReload("/pages/Home")}
+                  className="w-8 h-8"
+                />
                 <span className="text-lg hidden md:block">Home</span>
               </Link>
             </li>
@@ -70,7 +78,10 @@ const Sidebar = () => {
      transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer`}
               >
                 <div className="relative">
-                  <IoNotifications className="w-6 h-6" />
+                  <IoNotifications
+                    onClick={() => handleReload("/pages/Notifications")}
+                    className="w-6 h-6"
+                  />
                   {prevUnreadCount > 0 && (
                     <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 py-0 text-xs">
                       {prevUnreadCount}
@@ -89,7 +100,12 @@ const Sidebar = () => {
                 }
               } transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer`}
               >
-                <FaUser className="w-6 h-6" />
+                <FaUser
+                  onClick={() =>
+                    handleReload(`/pages/Profile/${authUser?.username}`)
+                  }
+                  className="w-6 h-6"
+                />
                 <span className="text-lg hidden md:block">Profile</span>
               </Link>
             </li>
@@ -102,7 +118,10 @@ const Sidebar = () => {
                 }
               } transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer`}
               >
-                <FaUsers className="w-7 h-7" />
+                <FaUsers
+                  onClick={() => handleReload("/pages/Seerch")}
+                  className="w-7 h-7"
+                />
                 <span className="text-lg hidden md:block">Frinds</span>
               </Link>
             </li>
@@ -154,6 +173,7 @@ const Sidebar = () => {
         <div className="flex justify-around items-center py-2">
           <Link href="/pages/Home" className="flex  flex-col items-center">
             <MdHomeFilled
+              onClick={() => handleReload("/pages/Home")}
               className={`w-8 h-8 ${
                 Active === "Home" ? "text-blue-500" : "text-white"
               }`}
@@ -165,6 +185,7 @@ const Sidebar = () => {
             className="flex flex-col items-center relative"
           >
             <IoNotifications
+              onClick={() => handleReload("/pages/Notifications")}
               className={`w-8 h-8 ${
                 Active === "Notifications" ? "text-blue-500" : "text-white"
               }`}
@@ -181,6 +202,9 @@ const Sidebar = () => {
             className="flex flex-col items-center"
           >
             <FaUser
+              onClick={() =>
+                handleReload(`/pages/Profile/${authUser?.username}`)
+              }
               className={`w-7 h-7  ${
                 Active === "Profile" ? "text-blue-500" : "text-white"
               }`}
@@ -190,6 +214,7 @@ const Sidebar = () => {
 
           <Link href={`/pages/Seerch`} className="flex flex-col items-center">
             <FaUsers
+              onClick={() => handleReload("/pages/Seerch")}
               className={`w-8 h-7  ${
                 Active === "Seerch" ? "text-blue-500" : "text-white"
               }`}
