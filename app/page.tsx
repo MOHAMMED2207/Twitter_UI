@@ -9,26 +9,23 @@ const Page = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   const token = Cookies.get("Succes");
-  //   console.log(token);
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
 
-  //   if (token) {
-  //     setIsAuthenticated(true);
-  //   } else {
-  //     setIsAuthenticated(false);
-  //   }
-  // }, []);
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   const token = Cookies.get("Succes");
-
-  //   if (token) {
-  //     router.push("/pages/Home");
-  //   } else {
-  //     router.push("/");
-  //   }
-  // }, [isAuthenticated, router]);
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/pages/Home");
+    } else {
+      router.push("/");
+    }
+  }, [isAuthenticated, router]);
 
   return (
     <div>
@@ -38,3 +35,4 @@ const Page = () => {
 };
 
 export default Page;
+
