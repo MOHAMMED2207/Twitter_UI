@@ -26,7 +26,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         const token = localStorage.getItem("jwt");
 
-        const res = await fetch("http://localhost:5005/api/auth/me", {
+        const res = await fetch("https://twitter-backend-mauve.vercel.app/api/auth/me", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
