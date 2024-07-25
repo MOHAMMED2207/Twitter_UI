@@ -112,8 +112,9 @@ const ISPost = ({ post }: ISPostProps) => {
             </div>
           </Link>
 
-          <div className="flex flex-col flex-1">
+           <div className="flex flex-col flex-1">
             <div className="flex gap-2 items-center">
+              <div className="flex flex-col lg:flex-row md:flex-row  lg:gap-2 lg:items-center md:gap-2 md:items-center">
               <Link href={`/pages/Profile/${postOwner.username}`}>
                 <span className="font-bold text-base sm:text-lg">
                   {postOwner.fullname}
@@ -124,6 +125,11 @@ const ISPost = ({ post }: ISPostProps) => {
                   @{postOwner.username} · {formattedDate}
                 </span>
               </Link>
+              </div>
+
+
+
+              
               {isMyPost && (
                 <span className="flex justify-end relative flex-1">
                   {!isDeleting && (
