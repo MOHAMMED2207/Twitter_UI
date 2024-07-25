@@ -12,7 +12,7 @@ const SearchBar = () => {
     const token = localStorage.getItem("jwt");
 
     if (searchTerm.length > 0 && searchTerm) {
-      fetch(`http://localhost:5005/api/searchUsers/${searchTerm}`, {
+      fetch(`https://twitter-backend-mauve.vercel.app/api/searchUsers/${searchTerm}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
