@@ -151,7 +151,7 @@ const ISPost = ({ post }: ISPostProps) => {
                 </span>
               )}
             </div>
-            <div className="flex flex-col gap-1 pt-2 overflow-hidden">
+            <div className="flex flex-col pt-2 overflow-hidden">
               <AutoResizeTextarea text={post.text} />
 
                   {post.img && (
