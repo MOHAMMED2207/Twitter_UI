@@ -65,7 +65,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch("http://localhost:5005/api/checkAuth", {
+        const res = await fetch("twitter-backend-mauve.vercel.app/api/checkAuth", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
