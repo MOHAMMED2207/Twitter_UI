@@ -35,7 +35,6 @@ export const LogoutAuth = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      Cookies.remove("Succes");
       toast.success("Logout successfully");
     },
     onError: () => {
