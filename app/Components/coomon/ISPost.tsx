@@ -151,10 +151,10 @@ const ISPost = ({ post }: ISPostProps) => {
                 </span>
               )}
             </div>
-            <div className="flex flex-col gap-3 pt-2 overflow-hidden">
+            <div className="flex flex-col gap-1 pt-2 overflow-hidden">
               <AutoResizeTextarea text={post.text} />
 
-              {post.img && (
+                  {post.img && (
                 <div className="relative h-60 sm:h-96 overflow-hidden">
                   <Image
                     fill
@@ -179,7 +179,12 @@ const ISPost = ({ post }: ISPostProps) => {
                   </video>
                 </div>
               )}
+
+
             </div>
+
+
+
             <div className="flex justify-between mt-3">
               <div className="flex gap-4 items-center w-2/3 justify-between">
                 <div
