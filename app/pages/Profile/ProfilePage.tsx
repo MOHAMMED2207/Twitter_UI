@@ -199,7 +199,7 @@ const ProfilePage = () => {
                         href={user?.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-sm truncate w-36 md:w-auto lg:w-auto text-blue-500 hover:underline"
+                        className="text-sm truncate w-36 md:w-64 lg:w-64 text-blue-500 hover:underline"
                       >
                         {user?.link}
                       </Link>
