@@ -9,9 +9,9 @@ export const GetAllPosts = ({ feedType, username, userId }: any) => {
       case "following":
         return " https://twitter-backend-mauve.vercel.app/api/post/following";
       case "post":
-        return ` https://twitter-backend-mauve.vercel.app/api/post/user/${username}`;
+        return ` http://localhost:5005/api/post/user/${username}`;
       case "likes":
-        return ` https://twitter-backend-mauve.vercel.app/api/post/likes/${userId}`;
+        return ` http://localhost:5005/api/post/likes/${username}`;
       default:
         return " https://twitter-backend-mauve.vercel.app/api/post/all";
     }
