@@ -37,7 +37,7 @@ const Posts = ({
     if (allPosts.length < totalPosts) {
       setTimeout(() => {
         setPage((prevPage) => prevPage + 1);
-      }, 1000); // تأخير لمدة ثانية واحدة
+      }, 2000); // تأخير لمدة ثانية واحدة
     }
   };
 
