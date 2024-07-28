@@ -270,7 +270,7 @@ const ISPost = ({ post }: ISPostProps) => {
                         </div>
                       </Link>
                       <div className="mt-2 w-full text-white">
-                        {comment.text}
+                        <AutoResizeTextarea text={comment.text} />
                       </div>
                       {comment.img && (
                         <div className="relative  max-w-sm min-h-48 max-h-72  overflow-hidden">
