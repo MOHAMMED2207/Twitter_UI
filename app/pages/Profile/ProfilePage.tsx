@@ -22,6 +22,7 @@ import { FollowButton } from "../../Hook/Follow/FollowButton";
 
 const ProfilePage = () => {
   const router = useRouter();
+  const scrollableDivRefProfile = useRef<HTMLDivElement | null>(null);
 
   const { username }: any = useParams<{ tag: string; item: string }>();
   // ============================================================================
@@ -73,8 +74,11 @@ const ProfilePage = () => {
   const LengthPost = posts?.length > 0 ? posts?.length : 0;
 
   return (
-    <div className=" w-full  h-[calc(100vh-56px)] lg:h-screen md:h-screen overflow-auto">
-      <div className="flex-[4_4_0]   border-r border-gray-700 min-h-screen ">
+    <div className=" w-full overflow-auto">
+      <div
+        ref={scrollableDivRefProfile}
+        className="flex-[4_4_0] pb-[60px]  border-r border-gray-700 min-h-screen "
+      >
         {/* HEADER */}
         {(isLoading || isRefetching) && <ProfileHeaderSkeleton />}
         {!isLoading && !isRefetching && !user && error && (
@@ -280,7 +284,12 @@ const ProfilePage = () => {
             </>
           )}
           {!isLoading && !isRefetching && !error && user && (
-            <Posts feedType={feedType} username={username} userId={user?._id} />
+            <Posts
+              feedType={feedType}
+              scrollableDivRefProfile={scrollableDivRefProfile}
+              username={username}
+              userId={user?._id}
+            />
           )}
         </div>
       </div>
