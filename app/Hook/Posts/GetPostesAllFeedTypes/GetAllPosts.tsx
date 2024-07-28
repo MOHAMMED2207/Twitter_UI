@@ -5,15 +5,15 @@ export const GetAllPosts = ({ feedType, username, userId, page }: any) => {
   const getPostEndpoint = () => {
     switch (feedType) {
       case "forYou":
-        return `https://twitter-backend-mauve.vercel.app/api/post/all?page=${page}&limit=20`;
+        return `https://twitter-backend-mauve.vercel.app/api/post/all?page=${page}&limit=10`;
       case "following":
-        return `https://twitter-backend-mauve.vercel.app/api/post/following?page=${page}&limit=20`;
+        return `https://twitter-backend-mauve.vercel.app/api/post/following?page=${page}&limit=10`;
       case "post":
-        return `https://twitter-backend-mauve.vercel.app/api/post/user/${username}?page=${page}&limit=20`;
+        return `https://twitter-backend-mauve.vercel.app/api/post/user/${username}?page=${page}&limit=10`;
       case "likes":
-        return `https://twitter-backend-mauve.vercel.app/api/post/likes/${username}?page=${page}&limit=20`;
+        return `https://twitter-backend-mauve.vercel.app/api/post/likes/${username}?page=${page}&limit=10`;
       default:
-        return `https://twitter-backend-mauve.vercel.app/api/post/all?page=${page}&limit=20`;
+        return `https://twitter-backend-mauve.vercel.app/api/post/all?page=${page}&limit=10`;
     }
   };
   const POST_ENDPOINT = getPostEndpoint();
