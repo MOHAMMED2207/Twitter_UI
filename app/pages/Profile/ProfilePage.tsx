@@ -77,7 +77,7 @@ const ProfilePage = () => {
     <div className=" w-full overflow-auto">
       <div
         ref={scrollableDivRefProfile}
-        className="flex-[4_4_0] pb-[60px]  border-r border-gray-700 min-h-screen "
+        className="flex-[4_4_0] pb-[60px] lg:pb-0 md:pb-0  border-r border-gray-700 min-h-screen "
       >
         {/* HEADER */}
         {(isLoading || isRefetching) && <ProfileHeaderSkeleton />}
