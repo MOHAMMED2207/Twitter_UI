@@ -1,30 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
-export const GetAllPosts = ({ feedType, username, userId }: any) => {
+export const GetAllPosts = ({ feedType, username, userId, page }: any) => {
   const getPostEndpoint = () => {
     switch (feedType) {
       case "forYou":
-        return "https://twitter-backend-mauve.vercel.app/api/post/all";
+        return `https://twitter-backend-mauve.vercel.app/api/post/all?page=${page}&limit=20`;
       case "following":
-        return "https://twitter-backend-mauve.vercel.app/api/post/following";
+        return `https://twitter-backend-mauve.vercel.app/api/post/following?page=${page}&limit=20`;
       case "post":
-        return `https://twitter-backend-mauve.vercel.app/api/post/user/${username}`;
+        return `https://twitter-backend-mauve.vercel.app/api/post/user/${username}?page=${page}&limit=20`;
       case "likes":
-        return `https://twitter-backend-mauve.vercel.app/api/post/likes/${username}`;
+        return `https://twitter-backend-mauve.vercel.app/api/post/likes/${username}?page=${page}&limit=20`;
       default:
-        return "https://twitter-backend-mauve.vercel.app/api/post/all";
+        return `https://twitter-backend-mauve.vercel.app/api/post/all?page=${page}&limit=20`;
     }
   };
   const POST_ENDPOINT = getPostEndpoint();
 
-  const {
-    data: posts,
-    isLoading,
-    refetch,
-    isRefetching,
-  } = useQuery({
-    queryKey: ["posts"],
+  const { data, isLoading, refetch, isRefetching } = useQuery({
+    queryKey: ["posts", feedType, username, userId, page],
     queryFn: async () => {
       try {
         const token = localStorage.getItem("jwt");
@@ -44,11 +39,18 @@ export const GetAllPosts = ({ feedType, username, userId }: any) => {
         throw new Error(error);
       }
     },
-    refetchInterval: 3600000, // 1 hour
+    // keepPreviousData: true,
   });
+
   useEffect(() => {
     refetch();
-  }, [feedType, refetch, username]);
+  }, [feedType, refetch, username, page]);
 
-  return { posts, isLoading, refetch, isRefetching };
+  return {
+    posts: data?.posts,
+    totalPosts: data?.totalPosts,
+    isLoading,
+    refetch,
+    isRefetching,
+  };
 };
