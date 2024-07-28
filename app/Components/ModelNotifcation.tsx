@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useFetchNotifications } from "../Hook/Notifaction/useFetchNotifications";
 import Link from "next/link";
 import Image from "next/image";
-
 import {
   FaRegComment,
   FaHeart,
@@ -10,6 +9,8 @@ import {
   FaRegBookmark,
   FaCommentDots,
 } from "react-icons/fa";
+import { IoCloseSharp } from "react-icons/io5";
+
 import { BiRepost } from "react-icons/bi";
 import { formatPostDate } from "../util/Date";
 import { useAuth } from "../lib/Provider";
@@ -31,7 +32,7 @@ export const ModelNotification = () => {
 
         setTimeout(() => {
           setIsVisible(false); // إخفاء الإشعار بعد 5 ثوانٍ
-        }, 5000);
+        }, 2000);
       } else {
         setStatusCheek(false);
       }
@@ -53,58 +54,67 @@ export const ModelNotification = () => {
     }
   }, [firstUnreadNotification, authUser]);
 
+  const handleCloseNotification = () => {
+    setIsVisible(false); // إخفاء الإشعار عند النقر على زر الإخفاء
+  };
+
   return (
     <React.Fragment>
-      {statusCheek && firstUnreadNotification && (
+      {statusCheek && firstUnreadNotification && isVisible && (
         <div
           key={firstUnreadNotification._id}
           className={`fixed w-full top-0 max-w-screen-sm p-2 transition-transform ease-in-out duration-500 z-[9999999999] rounded-lg bg-black left-1/2 transform -translate-x-1/2 ${
             isVisible
-              ? "-translate-y--0 transition-transform ease-in-out duration-500"
-              : "-translate-y-full top-0"
+              ? "translate-y-0 transition-transform ease-in-out duration-500"
+              : "-translate-y-full"
           }`}
         >
           <div className="flex flex-col gap-2 w-full p-4 bg-[#0f1011] border-2 rounded-lg border-gray-700">
-            <div className="flex items-start gap-2">
-              <div className="avatar">
-                <Link
-                  href={`/pages/Profile/${firstUnreadNotification.from.username}`}
-                  className="w-8 rounded-full overflow-hidden"
-                >
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden">
-                    <Image
-                      fill
-                      alt="Post Image"
-                      className="object-cover"
-                      src={
-                        firstUnreadNotification.from.ProfileImg ||
-                        "/avatars/avatar-placeholder.png"
-                      }
-                    />
-                  </div>
-                </Link>
-              </div>
-              <div className="flex-1 flex flex-col justify-start items-start">
-                <div className="flex gap-2 items-center">
-                  <Link
-                    href={`/pages/Profile/${firstUnreadNotification.from.username}`}
-                    className="font-bold truncate w-24 sm:w-40"
-                  >
-                    {firstUnreadNotification.from.fullname}
-                  </Link>
-                  <span className="text-gray-700 flex gap-1 text-xs sm:text-sm">
+            <div className="flex items-start justify-between">
+              <div className="flex flex-col justify-center">
+                <div className="flex items-start gap-2">
+                  <div className="avatar">
                     <Link
                       href={`/pages/Profile/${firstUnreadNotification.from.username}`}
+                      className="w-8 rounded-full overflow-hidden"
                     >
-                      @{firstUnreadNotification.from.username}
+                      <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                        <Image
+                          fill
+                          alt="Post Image"
+                          className="object-cover"
+                          src={
+                            firstUnreadNotification.from.ProfileImg ||
+                            "/avatars/avatar-placeholder.png"
+                          }
+                        />
+                      </div>
                     </Link>
-                    <span>·</span>
-                    <span>
-                      {formatPostDate(firstUnreadNotification.createdAt)}
-                    </span>
-                  </span>
+                  </div>
+                  <div className="flex-1 flex flex-col justify-start items-start">
+                    <div className="flex  flex-col lg:flex-row md:flex-row gap-0 lg:gap-2 md:gap-2 items-start lg:items-center md:items-center">
+                      <Link
+                        href={`/pages/Profile/${firstUnreadNotification.from.username}`}
+                        className="font-bold truncate lg:w-24 md:w-24 w-40"
+                      >
+                        {firstUnreadNotification.from.fullname}
+                      </Link>
+                      <span className="text-gray-700 flex gap-1 text-xs sm:text-sm">
+                        <Link
+                          href={`/pages/Profile/${firstUnreadNotification.from.username}`}
+                        >
+                          @{firstUnreadNotification.from.username}
+                        </Link>
+                        <span>·</span>
+                        <span>
+                          {formatPostDate(firstUnreadNotification.createdAt)}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2 overflow-hidden">
+
+                <div className="flex ml-3 flex-col gap-2 mt-2 overflow-hidden">
                   {firstUnreadNotification.type === "comment" && (
                     <span className="flex items-center gap-2">
                       <FaCommentDots className="w-7 h-6 text-blue-600" />
@@ -115,14 +125,20 @@ export const ModelNotification = () => {
                     </span>
                   )}
                   {firstUnreadNotification.type === "like" && (
-                    <span className="flex items-center gap-2">
-                      <FaHeart className="w-6 h-5 text-red-500" />
-                      <span>
-                        {firstUnreadNotification.from.username} liked your post
+                    <span className="flex  gap-2">
+                      <FaHeart className="w-5 h-5 text-red-500" />
+
+                      <span className="flex flex-row w-full  ">
+                        <Link
+                          href={`/pages/Profile/${firstUnreadNotification.from.username}`}
+                          className="text-blue-500  hidden md:flex lg:flex underline pr-2"
+                        >
+                          {firstUnreadNotification.from.username}
+                        </Link>
+                        <span>liked your post</span>
                       </span>
                     </span>
                   )}
-
                   {firstUnreadNotification.type === "follow" && (
                     <span className="flex items-center gap-2">
                       <FaUser className="w-6 h-5 text-blue-600" />
@@ -134,6 +150,14 @@ export const ModelNotification = () => {
                   )}
                 </div>
               </div>
+
+              <button className="bg-[#0000003a]  p-1 rounded-full">
+                <IoCloseSharp
+                  onClick={handleCloseNotification}
+                  // className="text-white bg-red-500 hover:bg-red-700 rounded px-2 py-1"
+                  size={20}
+                />
+              </button>
             </div>
 
             {firstUnreadNotification.type !== "follow" &&
@@ -178,14 +202,14 @@ export const ModelNotification = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="flex w-full flex-col gap-2 overflow-hidden">
-                      <span>
+                    <div className="flex w-full flex-col  overflow-hidden">
+                      <span className="max-h-11 overflow-hidden mb-3 ">
                         <AutoResizeTextarea
                           text={firstUnreadNotification.post.text}
                         />
                       </span>
                       {firstUnreadNotification.post.img && (
-                        <div className="relative h-36 sm:h-56 overflow-hidden">
+                        <div className="relative h-36 overflow-hidden">
                           <Image
                             fill
                             alt="Image"
@@ -196,7 +220,7 @@ export const ModelNotification = () => {
                       )}
 
                       {firstUnreadNotification.post.video && (
-                        <div className="relative h-32 sm:h-36 overflow-hidden">
+                        <div className="relative h-32  overflow-hidden">
                           <video
                             controls
                             className="w-full h-full object-cover rounded-lg border border-gray-700"
@@ -209,41 +233,6 @@ export const ModelNotification = () => {
                           </video>
                         </div>
                       )}
-                    </div>
-                    <div className="flex justify-between mt-3">
-                      <div className="flex gap-6 items-center w-2/3 justify-between">
-                        <div className="flex gap-1 items-center cursor-pointer group">
-                          <FaRegComment className="w-4 h-4 text-slate-500" />
-                          <span className="text-xs sm:text-sm text-slate-500">
-                            {firstUnreadNotification.post.comments.length}
-                          </span>
-                        </div>
-
-                        <div className="flex gap-1 items-center group cursor-pointer">
-                          <BiRepost className="w-6 h-6 text-slate-500" />
-                          <span className="text-xs sm:text-sm text-slate-500">
-                            0
-                          </span>
-                        </div>
-
-                        <div className="flex gap-1 items-center group cursor-pointer">
-                          {isLiked === true ? (
-                            <FaHeart className="w-4 h-4 cursor-pointer text-red-600" />
-                          ) : (
-                            <FaHeart className="w-4 h-4 cursor-pointer text-slate-500 group-hover:text-red-600" />
-                          )}
-                          <span
-                            className={`text-xs sm:text-sm group-hover:text-red-600 ${
-                              isLiked ? "text-red-600" : "text-slate-500"
-                            }`}
-                          >
-                            {firstUnreadNotification.post.likes.length}
-                          </span>
-                        </div>
-                        <div className="flex gap-1 items-center group cursor-pointer">
-                          <FaRegBookmark className="w-4 h-4 text-slate-500 cursor-pointer" />
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
