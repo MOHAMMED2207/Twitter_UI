@@ -233,7 +233,7 @@ const ISPost = ({ post }: ISPostProps) => {
         {showComments && (
           <section
             id={`comments_modal${post._id}`}
-            className="w-full backdrop-blur-sm relative bg-[#0f1012] p-4 mx-auto"
+            className="w-full backdrop-blur-sm relative bg-[#0a0a0a] p-4 mx-auto"
           >
             <h3 className="font-os text-lg font-bold">Comments</h3>
 
