@@ -24,7 +24,7 @@ const AutoResizeTextarea = ({ text }: any) => {
       <div className=" w-full flex justify-end items-end" >
         <textarea
           ref={textareaRef}
-          className="resize-none pt-2 outline-none text-sm bg-black w-full sm:text-base"
+          className="resize-none pt-2 outline-none text-sm bg-[#0f101100] w-full sm:text-base"
           value={displayText}
           readOnly
         ></textarea>
