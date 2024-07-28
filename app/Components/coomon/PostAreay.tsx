@@ -15,7 +15,7 @@ export const PostAreay = () => {
   };
 
   return (
-    <div className="relative flex-[4_4_0] mr-auto border-r pb-[60px] border-gray-700 ">
+    <div className="relative flex-[4_4_0] mr-auto border-r pb-[60px] lg:pb-0 md:pb-0 border-gray-700 ">
       <div
         ref={scrollableDivRef}
         className="relative flex-[4_4_0] mr-auto border-r  border-gray-700  "
