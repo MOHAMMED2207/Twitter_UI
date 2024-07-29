@@ -5,7 +5,7 @@ export const FnUpdatedPost = (ID: any) => {
     queryKey: ["post", ID],
     queryFn: async () => {
       const token = localStorage.getItem("jwt");
-      const res = await fetch(`http://localhost:5005/api/posts/${ID}`, {
+      const res = await fetch(`https://twitter-backend-mauve.vercel.app/api/posts/${ID}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
