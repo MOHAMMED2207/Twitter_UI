@@ -8,7 +8,7 @@ import { formatPostDate } from "../../util/Date";
 import { FnCommentProcess } from "../../Hook/Posts/Comment/FnCommentProcess";
 import { FnLikeProcess } from "../../Hook/Posts/Likes/FnLikes";
 import { FnDeleteProcess } from "../../Hook/Delete/FnDeleteProcess";
-import { ISPostProps, UserObject_Type } from "../../Types/type";
+import { ISPostProps } from "../../Types/type";
 import { VscListSelection } from "react-icons/vsc";
 import { CiImageOn } from "react-icons/ci";
 import Link from "next/link";
