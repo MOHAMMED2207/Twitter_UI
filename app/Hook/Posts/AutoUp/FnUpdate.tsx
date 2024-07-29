@@ -17,7 +17,7 @@ export const FnUpdatedPost = (ID: any) => {
       const data = await res.json();
       return data;
     },
-    refetchInterval: 10000, // جلب البيانات كل 10 ثواني
+    refetchInterval: 5000, // جلب البيانات كل 10 ثواني
   });
 
   return { updatedPost };
