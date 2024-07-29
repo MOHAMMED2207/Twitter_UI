@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 export const GetAllPosts = ({ feedType, username, userId, page }: any) => {
-  const getPostEndpoint = () => {
+  
+const getPostEndpoint = () => {
     switch (feedType) {
       case "forYou":
         return `https://twitter-backend-mauve.vercel.app/api/post/all?page=${page}&limit=10`;
@@ -16,6 +17,7 @@ export const GetAllPosts = ({ feedType, username, userId, page }: any) => {
         return `https://twitter-backend-mauve.vercel.app/api/post/all?page=${page}&limit=10`;
     }
   };
+
   const POST_ENDPOINT = getPostEndpoint();
 
   const { data, isLoading, refetch, isRefetching } = useQuery({
