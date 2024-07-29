@@ -13,7 +13,7 @@ const Posts = ({
   scrollableDivRef,
   scrollableDivRefProfile,
 }: any) => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1); // بدء الصفحة من 1
   const { posts, totalPosts, isLoading, isRefetching } = GetAllPosts({
     feedType,
     username,
@@ -25,14 +25,16 @@ const Posts = ({
 
   useEffect(() => {
     if (posts) {
-      if (page === 1) {
-        setAllPosts(posts);
-      } else {
-        setAllPosts((prevPosts) => [...prevPosts, ...posts]);
-      }
+      setAllPosts((prevPosts) => {
+        const newPosts = posts.filter(
+          (newPost: { _id: string }) =>
+            !prevPosts.some((prevPost) => prevPost._id === newPost._id)
+        );
+        return page === 1 ? posts : [...prevPosts, ...newPosts];
+      });
     }
   }, [posts, page]);
-
+  
   const fetchMoreData = () => {
     if (allPosts.length < totalPosts) {
       setTimeout(() => {
@@ -42,9 +44,6 @@ const Posts = ({
   };
 
   const refrance = scrollableDivRefProfile || scrollableDivRef;
-  useEffect(() => {
-    console.log(refrance);
-  }, [refrance]);
 
   return (
     <InfiniteScroll
