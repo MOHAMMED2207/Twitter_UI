@@ -8,23 +8,31 @@ import { formatPostDate } from "../../util/Date";
 import { FnCommentProcess } from "../../Hook/Posts/Comment/FnCommentProcess";
 import { FnLikeProcess } from "../../Hook/Posts/Likes/FnLikes";
 import { FnDeleteProcess } from "../../Hook/Delete/FnDeleteProcess";
-import { ISPostProps } from "../../Types/type";
+import { ISPostProps, UserObject_Type } from "../../Types/type";
 import { VscListSelection } from "react-icons/vsc";
 import { CiImageOn } from "react-icons/ci";
 import Link from "next/link";
 import { useAuth } from "../../lib/Provider";
 import { ConfirmModel } from "../ConfirmModel";
 import AutoResizeTextarea from "../AutoResizeTextarea";
+import { FnUpdatedPost } from "../../Hook/Posts/AutoUp/FnUpdate";
 
+interface Comment {
+  user: string;
+  text: string;
+  img?: string;
+  video?: string;
+}
 const ISPost = ({ post }: ISPostProps) => {
-  console.log(" Eidit Post" + post);
+  console.log(post);
 
-  // ----------------------------------------------------------------------------------------------------
+  // Is all variabl and state and ref ==============================================================================
+  // variabl
   const { authUser } = useAuth();
   const postOwner = post.user;
   const formattedDate = formatPostDate(post.createdAt);
   const isMyPost = post.user._id === authUser?._id;
-  // ----------------------------------------------------------------------------------------------------
+  // state
   const [isModalOpen, setIsModalOpen] = useState<string>("");
   const [text, setText] = useState<string>("");
   const [Disabld, setDisabld] = useState(false);
@@ -33,16 +41,17 @@ const ISPost = ({ post }: ISPostProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [img, setImg] = useState<any>(null);
   const [video, setVideo] = useState<any>(null); // حالة للفيديو
+  const [likes, setLikes] = useState(post.likes);
+  const [isLiked, setIsLiked] = useState(
+    Array.isArray(post.likes) && post.likes.includes(authUser?._id || "")
+  );
+  // ref
   const ImgRef = useRef<any>(null);
   const VideoRef = useRef<any>(null);
-  // ----------------------------------------------------------------------------------------------------
+  // Is all variabl and state and ref ==============================================================================
 
-  const isLiked =
-    Array.isArray(post.likes) && post.likes.includes(authUser?._id || "");
-
+  // Start ALL Hoks ================================================================================================
   const { likePost, isLiking } = FnLikeProcess({ post });
-
-  // ----------------------------------------------------------------------------------------------------
   const { commentPost, isCommenting } = FnCommentProcess({
     post,
     authUser,
@@ -50,35 +59,36 @@ const ISPost = ({ post }: ISPostProps) => {
     setImg,
     setVideo,
   });
-  // ----------------------------------------------------------------------------------------------------
   const { deletePost, isDeleting } = FnDeleteProcess({
     post,
   });
-  // ----------------------------------------------------------------------------------------------------
+  const { updatedPost } = FnUpdatedPost(post._id);
+  // end ALL Hoks ==================================================================================================
 
-  // ----------------------------------------------------------------------------------------------------
+  // start ALL handel faunction  ===================================================================================
   const handleDeletePost = () => {
     deletePost();
     setConffirm(false);
     setIsOpen(false);
   };
-  // ----------------------------------------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------------------------------------
   const handlePostComment = (e: any) => {
     e.preventDefault();
     if (isCommenting) return;
     commentPost({ text, img, video });
   };
-  // ----------------------------------------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------------------------------------
-  const handleLikePost = () => {
+  const handleLikePost = async () => {
     likePost();
+    if (isLiked) {
+      setLikes((prevLikes) => prevLikes.filter((id) => id !== authUser?._id));
+    } else {
+      setLikes((prevLikes) => [...prevLikes, authUser?._id]);
+    }
+    setIsLiked(!isLiked);
   };
-  // ----------------------------------------------------------------------------------------------------
+  const [comments, setComments] = useState<Comment[]>([]); // إذا كنت تستخدم حالة للتعليقات
 
-  // ----------------------------------------------------------------------------------------------------
   const handleMediaChange = (e: any, setMedia: Function) => {
     const file = e.target.files[0];
     if (file) {
@@ -89,11 +99,25 @@ const ISPost = ({ post }: ISPostProps) => {
       reader.readAsDataURL(file);
     }
   };
-  // ----------------------------------------------------------------------------------------------------
+  // end ALL handel faunction  ===================================================================================
+
+  // UseEffect ===================================================================================================
+  useEffect(() => {
+    if (updatedPost) {
+      setLikes(updatedPost.likes || []);
+      setIsLiked(
+        Array.isArray(updatedPost.likes) &&
+          updatedPost.likes.includes(authUser?._id || "")
+      );
+      // تحديث التعليقات بشكل مباشر إذا كانت الخصائص موجودة
+      setComments(updatedPost.comments || []);
+    }
+  }, [updatedPost]);
 
   useEffect(() => {
     !text && !img && !video ? setDisabld(true) : setDisabld(false);
   }, [text, img, video]);
+  // UseEffect ===================================================================================================
 
   return (
     <React.Fragment>
@@ -184,7 +208,7 @@ const ISPost = ({ post }: ISPostProps) => {
                 >
                   <FaRegComment className="w-4 h-4 text-slate-500 group-hover:text-sky-400" />
                   <span className="text-xs sm:text-sm text-slate-500 group-hover:text-sky-400">
-                    {post.comments.length}
+                    {comments.length}
                   </span>
                 </div>
 
@@ -211,7 +235,7 @@ const ISPost = ({ post }: ISPostProps) => {
                       isLiked ? "text-red-600" : "text-slate-500"
                     }`}
                   >
-                    {post.likes.length}
+                    {likes.length}
                   </span>
                 </button>
               </div>
