@@ -17,6 +17,8 @@ import { ConfirmModel } from "../ConfirmModel";
 import AutoResizeTextarea from "../AutoResizeTextarea";
 
 const ISPost = ({ post }: ISPostProps) => {
+  console.log(" Eidit Post" + post);
+
   // ----------------------------------------------------------------------------------------------------
   const { authUser } = useAuth();
   const postOwner = post.user;
@@ -99,7 +101,7 @@ const ISPost = ({ post }: ISPostProps) => {
         <div className="flex  sm:flex-row gap-2 items-start p-4 border-y border-gray-700">
           <Link href={`/pages/Profile/${postOwner.username}`}>
             <div className="avatar">
-              <div className="relative w-10 h-10  md:h-14 lg:h-14 md:w-14 lg:w-14 rounded-full overflow-hidden">
+              <div className="relative w-14 h-14 rounded-full overflow-hidden">
                 <Image
                   fill
                   alt="Post Image"
@@ -112,24 +114,21 @@ const ISPost = ({ post }: ISPostProps) => {
             </div>
           </Link>
 
-           <div className="flex flex-col flex-1">
+          <div className="flex flex-col flex-1">
             <div className="flex gap-2 items-center">
               <div className="flex flex-col lg:flex-row md:flex-row  lg:gap-2 lg:items-center md:gap-2 md:items-center">
-              <Link href={`/pages/Profile/${postOwner.username}`}>
-                <span className="font-bold text-base sm:text-lg">
-                  {postOwner.fullname}
-                </span>
-              </Link>
-              <Link href={`/pages/Profile/${postOwner.username}`}>
-                <span className="text-gray-700 flex gap-1 text-xs sm:text-sm">
-                  @{postOwner.username} · {formattedDate}
-                </span>
-              </Link>
+                <Link href={`/pages/Profile/${postOwner.username}`}>
+                  <span className="font-bold text-base sm:text-lg">
+                    {postOwner.fullname}
+                  </span>
+                </Link>
+                <Link href={`/pages/Profile/${postOwner.username}`}>
+                  <span className="text-gray-700 flex gap-1 text-xs sm:text-sm">
+                    @{postOwner.username} · {formattedDate}
+                  </span>
+                </Link>
               </div>
 
-
-
-              
               {isMyPost && (
                 <span className="flex justify-end relative flex-1">
                   {!isDeleting && (
@@ -154,7 +153,7 @@ const ISPost = ({ post }: ISPostProps) => {
             <div className="flex flex-col pt-2 overflow-hidden">
               <AutoResizeTextarea text={post.text} />
 
-                  {post.img && (
+              {post.img && (
                 <div className="relative h-60 sm:h-96 overflow-hidden">
                   <Image
                     fill
@@ -165,26 +164,18 @@ const ISPost = ({ post }: ISPostProps) => {
                   />
                 </div>
               )}
-                 {post.video && (
-                <div className="relative overflow-hidden">
+              {post.video && (
+                <div className="relative   overflow-hidden">
                   <video
                     controls
-                    preload="auto"
                     className="w-full min-h-[30rem] max-h-[37rem] object-contain rounded-lg border border-gray-700"
-                    onMouseEnter={(e) => e.currentTarget.play()}
-                    onMouseLeave={(e) => e.currentTarget.pause()}
                   >
                     <source src={post.video} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 </div>
               )}
-
-
             </div>
-
-
-
             <div className="flex justify-between mt-3">
               <div className="flex gap-4 items-center w-2/3 justify-between">
                 <div
@@ -233,7 +224,7 @@ const ISPost = ({ post }: ISPostProps) => {
         {showComments && (
           <section
             id={`comments_modal${post._id}`}
-            className="w-full backdrop-blur-sm relative bg-[#0a0a0a] p-4 mx-auto"
+            className="w-full backdrop-blur-sm relative bg-[#16181c] p-4 mx-auto"
           >
             <h3 className="font-os text-lg font-bold">Comments</h3>
 
@@ -244,10 +235,10 @@ const ISPost = ({ post }: ISPostProps) => {
                 </p>
               ) : (
                 post.comments.map((comment) => (
-                  <div key={comment._id} className="flex  border-t-2 py-4 border-[#393a3a] ">
+                  <div key={comment._id} className="flex mt-4">
                     <Link href={`/pages/Profile/${comment.user.username}`}>
                       <div className="avatar">
-                        <div className="relative w-10 h-10  md:h-14 lg:h-14 md:w-14 lg:w-14 rounded-full">
+                        <div className="relative w-14 h-14 rounded-full">
                           <Image
                             fill
                             alt="Post Image"
@@ -270,7 +261,7 @@ const ISPost = ({ post }: ISPostProps) => {
                         </div>
                       </Link>
                       <div className="mt-2 w-full text-white">
-                        <AutoResizeTextarea text={comment.text} />
+                        {comment.text}
                       </div>
                       {comment.img && (
                         <div className="relative  max-w-sm min-h-48 max-h-72  overflow-hidden">
