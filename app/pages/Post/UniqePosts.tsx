@@ -92,7 +92,7 @@ const UniquePost = () => {
   };
 
   return (
-    <div className="relative flex-[4_4_0]  mr-auto border-r pb-[50px] lg:pb-0 md:pb-0  overflow-auto border-gray-700 flex flex-col">
+     <div className="relative flex-[4_4_0]  mr-auto border-r pb-[50px] lg:pb-0 md:pb-0  overflow-auto border-gray-700 flex flex-col">
       {loading && (
         <div className="flex flex-col justify-center">
           <PostSkeleton />
