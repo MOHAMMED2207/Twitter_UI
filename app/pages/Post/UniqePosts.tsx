@@ -25,13 +25,12 @@ const UniquePost = () => {
   const [video, setVideo] = useState<any>(null);
   const [text, setText] = useState<string>("");
   const [Disabld, setDisabld] = useState(false);
-  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
         const token = localStorage.getItem("jwt");
-        const res = await fetch(`https://twitter-backend-mauve.vercel.app/api/posts/${id}`, {
+        const res = await fetch(`http://localhost:5005/api/posts/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -39,19 +38,29 @@ const UniquePost = () => {
           },
           credentials: "include",
         });
+
+        if (!res.ok) {
+          throw new Error("Post not found");
+        }
+
+        if (!res) {
+          throw new Error("Post not found");
+        }
         const data = await res.json();
         setPost(data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching post:", error);
-        setLoading(false);
+        router.back;
       }
     };
 
     if (id) {
       fetchPost();
+    } else {
+      router.back();
     }
-  }, [id]);
+  }, [id, router]);
 
   const { commentPost, isCommenting } = FnCommentProcess({
     post,
@@ -83,7 +92,7 @@ const UniquePost = () => {
   };
 
   return (
-    <div className="relative flex-[4_4_0] mr-auto border-r h-[calc(100vh-58px)]  lg:h-screen md:h-screen  overflow-auto border-gray-700 ">
+    <div className="relative flex-[4_4_0]  mr-auto border-r pb-[50px] lg:pb-0 md:pb-0  overflow-auto border-gray-700 flex flex-col">
       {loading && (
         <div className="flex flex-col justify-center">
           <PostSkeleton />
@@ -102,10 +111,9 @@ const UniquePost = () => {
       {post ? <ISPost post={post} /> : <p>Post not found</p>}
       <section
         id={`comments_modal${post?._id}`}
-        className="w-full backdrop-blur-sm relative bg-black 
-        p-4 mx-auto"
+        className="w-full backdrop-blur-sm  relative  p-4 pb-2 lg:pb-0 md:pb-0 mx-auto flex-grow flex flex-col"
       >
-        <div className="overflow-y-auto  pr-3 max-h-[60vh] pb-[0px] ">
+        <div className="overflow-y-auto flex-grow pr-3 max-h-[39rem] pb-[12px] ">
           <h3 className="font-os text-lg font-bold">Comments</h3>
           {post?.comments.length === 0 ? (
             <p className="text-md mt-2 text-gray-400">
@@ -145,7 +153,7 @@ const UniquePost = () => {
                         fill
                         alt="Image"
                         src={comment.img}
-                        className="object-contain w-full rounded-lg border border-gray-700"
+                        className="object-contain mt-[8px] w-full rounded-lg border border-gray-700"
                       />
                     </div>
                   )}
@@ -153,7 +161,7 @@ const UniquePost = () => {
                     <div className="relative overflow-hidden">
                       <video
                         controls
-                        className="w-full h-60 object-contain rounded-lg border border-gray-700"
+                        className="w-full mt-[8px] h-60 object-contain rounded-lg border border-gray-700"
                       >
                         <source src={comment.video} type="video/mp4" />
                         Your browser does not support the video tag.
@@ -165,105 +173,104 @@ const UniquePost = () => {
             ))
           )}
         </div>
-      </section>
-      <form
-        className="bg-black p-4 border-t border-gray-700"
-        onSubmit={handlePostComment}
-      >
-        {img && (
-          <div className="relative w-36 h-36 mx-auto">
-            <IoCloseSharp
-              className="absolute z-10 top-0 right-0 text-white bg-gray-800 rounded-full p-1 w-7 h-7 cursor-pointer"
-              onClick={() => {
-                setImg(null);
-                ImgRef.current.value = null;
-              }}
-            />
-            <Image
-              src={img}
-              fill
-              alt="img create post"
-              className="mx-auto object-cover rounded"
-            />
-          </div>
-        )}
-        {video && (
-          <div className="relative w-full h-60 mx-auto">
-            <IoCloseSharp
-              className="absolute z-10 top-0 right-0 text-white bg-gray-800 rounded-full p-1 w-7 h-7 cursor-pointer"
-              onClick={() => {
-                setVideo(null);
-                VideoRef.current.value = null;
-              }}
-            />
-            <video
-              controls
-              className="mx-auto object-contain rounded w-full h-full"
-            >
-              <source src={video} type="video/mp4" />
-            </video>
-          </div>
-        )}
-
-        <div className="flex flex-row gap-2 items-center justify-between">
-          <div>
-            <div className="flex gap-1 mt-2 items-center">
-              <CiImageOn
-                className="fill-primary w-6 h-6 cursor-pointer"
-                onClick={() => {
-                  setVideo(null);
-                  ImgRef.current.click();
-                }}
-              />
-              <BiVideo
-                className="fill-primary w-6 h-6 cursor-pointer"
+        <form
+          className="bg-black p-4  border-t border-gray-700 flex-shrink-0"
+          onSubmit={handlePostComment}
+        >
+          {img && (
+            <div className="relative w-36 h-36 mx-auto">
+              <IoCloseSharp
+                className="absolute  z-10 top-0 right-0 text-white bg-gray-800 rounded-full p-1 w-7 h-7 cursor-pointer"
                 onClick={() => {
                   setImg(null);
-                  VideoRef.current.click();
+                  ImgRef.current.value = null;
                 }}
               />
+              <Image
+                src={img}
+                fill
+                alt="img create post"
+                className="mx-auto object-cover rounded"
+              />
             </div>
-
-            <input
-              type="file"
-              accept="image/*"
-              hidden
-              ref={ImgRef}
-              onChange={(e) => handleMediaChange(e, setImg)}
-            />
-            <input
-              type="file"
-              accept="video/*"
-              hidden
-              ref={VideoRef}
-              onChange={(e) => handleMediaChange(e, setVideo)}
-            />
-          </div>
-
-          <div className="flex w-full items-center gap-2">
-            <input
-              id="comment"
-              placeholder="Add a comment..."
-              name="comment"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              className="py-1 w-10/12 text-black mt-2 pl-2 outline-none rounded-full"
-            ></input>
-
-            <button
-              type="submit"
-              disabled={Disabld}
-              className={`border-blue-600 ISdisabled mt-2 mr-4 lg:mr-0 md:mr-0 border-2 text-white font-medium py-2 px-6 rounded-full hover:transition-all hover:bg-blue-600`}
-            >
+          )}
+          {video && (
+            <div className="relative w-full h-60 mx-auto">
+              <IoCloseSharp
+                className="absolute z-10 top-0 right-0 text-white bg-gray-800 rounded-full p-1 w-7 h-7 cursor-pointer"
+                onClick={() => {
+                  setVideo(null);
+                  VideoRef.current.value = null;
+                }}
+              />
+              <video
+                controls
+                className="mx-auto object-contain rounded w-full h-full"
+              >
+                <source src={video} type="video/mp4" />
+              </video>
+            </div>
+          )}
+          <div className="flex flex-row justify-between">
+            <div>
+              <div className="flex gap-1 mt-2 items-center">
+                <CiImageOn
+                  className="fill-primary w-6 h-6 cursor-pointer"
+                  onClick={() => {
+                    setVideo(null);
+                    ImgRef.current.click();
+                  }}
+                />
+                <BiVideo
+                  className="fill-primary w-6 h-6 cursor-pointer"
+                  onClick={() => {
+                    setImg(null);
+                    VideoRef.current.click();
+                  }}
+                />
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                ref={ImgRef}
+                onChange={(e) => handleMediaChange(e, setImg)}
+              />
+              <input
+                type="file"
+                accept="video/*"
+                hidden
+                ref={VideoRef}
+                onChange={(e) => handleMediaChange(e, setVideo)}
+              />
+            </div>
+            <div className="flex-grow mx-3 flex items-center justify-between">
+              <input
+                type="text"
+                className="w-full h-10 p-2 bg-[#0c0c0c] rounded-3xl text-white outline-none"
+                placeholder="Write a comment..."
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+              />
+            </div>
+            <div className="w-10 h-10">
               {isCommenting ? (
-                <LoadingSpinner />
+                <LoadingSpinner size="6" />
               ) : (
-                <IoSend className="w-5 h-5 fill-white" />
+                <button
+                  className={`w-full h-full bg-primary rounded-full text-white flex items-center justify-center ${
+                    Disabld ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  type="submit"
+                  disabled={Disabld}
+                >
+                  <IoSend />
+                </button>
               )}
-            </button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </section>
     </div>
   );
 };
