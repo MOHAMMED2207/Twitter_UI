@@ -146,7 +146,7 @@ const ISPost = ({ post }: ISPostProps) => {
                     alt="Image"
                     src={post.img}
                     onClick={() => setIsModalOpen(post.img)}
-                    className="object-contain rounded-lg border border-gray-700"
+                    className="object-contain mt-[8px] rounded-lg border border-gray-700"
                   />
                 </div>
               )}
@@ -154,7 +154,7 @@ const ISPost = ({ post }: ISPostProps) => {
                 <div className="relative   overflow-hidden">
                   <video
                     controls
-                    className="w-full min-h-[30rem] max-h-[37rem] object-contain rounded-lg border border-gray-700"
+                    className="w-full mt-[8px] min-h-[30rem] max-h-[37rem] object-contain rounded-lg border border-gray-700"
                   >
                     <source src={post.video} type="video/mp4" />
                     Your browser does not support the video tag.
@@ -212,11 +212,9 @@ const ISPost = ({ post }: ISPostProps) => {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
           <div className="relative w-full h-full">
-            <IoCloseSharp
-              className="absolute z-50 top-4 right-4 text-white bg-gray-800 rounded-full p-1 w-8 h-8 cursor-pointer"
-              onClick={() => setIsModalOpen("")}
-            />
+           
             <Image
+              onClick={() => setIsModalOpen("")}
               fill
               alt="Image"
               src={isModalOpen}
