@@ -30,7 +30,7 @@ const UniquePost = () => {
     const fetchPost = async () => {
       try {
         const token = localStorage.getItem("jwt");
-        const res = await fetch(`https://twitter-backend-mauve.vercel.app/api/posts/${id}`, {
+        const res = await fetch(`http://localhost:5005/api/posts/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -146,14 +146,14 @@ const UniquePost = () => {
                       @{comment.user.username}
                     </div>
                   </Link>
-                  <div className="mt-2 w-full text-white">{comment.text}</div>
+                  <div className="mt-2 w-full pb-2 text-white">{comment.text}</div>
                   {comment.img && (
                     <div className="relative max-w-sm min-h-48 max-h-72 overflow-hidden">
                       <Image
                         fill
                         alt="Image"
                         src={comment.img}
-                        className="object-contain mt-[8px] w-full rounded-lg border border-gray-700"
+                        className="object-contain  w-full rounded-lg border border-gray-700"
                       />
                     </div>
                   )}
@@ -161,7 +161,7 @@ const UniquePost = () => {
                     <div className="relative overflow-hidden">
                       <video
                         controls
-                        className="w-full mt-[8px] h-60 object-contain rounded-lg border border-gray-700"
+                        className="w-full  h-60 object-contain rounded-lg border border-gray-700"
                       >
                         <source src={comment.video} type="video/mp4" />
                         Your browser does not support the video tag.
