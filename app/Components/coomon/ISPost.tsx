@@ -1,16 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaRegComment, FaHeart, FaRegBookmark } from "react-icons/fa";
-import { BiRepost, BiVideo } from "react-icons/bi";
+import { BiRepost } from "react-icons/bi";
 import { IoCloseSharp, IoSend } from "react-icons/io5";
 import LoadingSpinner from "./LoadingSpinner";
 import { formatPostDate } from "../../util/Date";
-import { FnCommentProcess } from "../../Hook/Posts/Comment/FnCommentProcess";
 import { FnLikeProcess } from "../../Hook/Posts/Likes/FnLikes";
 import { FnDeleteProcess } from "../../Hook/Delete/FnDeleteProcess";
 import { ISPostProps } from "../../Types/type";
 import { VscListSelection } from "react-icons/vsc";
-import { CiImageOn } from "react-icons/ci";
 import Link from "next/link";
 import { useAuth } from "../../lib/Provider";
 import { ConfirmModel } from "../ConfirmModel";
@@ -34,31 +32,16 @@ const ISPost = ({ post }: ISPostProps) => {
   const isMyPost = post.user._id === authUser?._id;
   // state
   const [isModalOpen, setIsModalOpen] = useState<string>("");
-  const [text, setText] = useState<string>("");
-  const [Disabld, setDisabld] = useState(false);
-  const [showComments, setShowComments] = useState(false);
   const [Conffirm, setConffirm] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [img, setImg] = useState<any>(null);
-  const [video, setVideo] = useState<any>(null); // حالة للفيديو
   const [likes, setLikes] = useState(post.likes);
   const [isLiked, setIsLiked] = useState(
     Array.isArray(post.likes) && post.likes.includes(authUser?._id || "")
   );
-  // ref
-  const ImgRef = useRef<any>(null);
-  const VideoRef = useRef<any>(null);
   // Is all variabl and state and ref ==============================================================================
 
   // Start ALL Hoks ================================================================================================
   const { likePost, isLiking } = FnLikeProcess({ post });
-  const { commentPost, isCommenting } = FnCommentProcess({
-    post,
-    authUser,
-    setText,
-    setImg,
-    setVideo,
-  });
   const { deletePost, isDeleting } = FnDeleteProcess({
     post,
   });
@@ -72,12 +55,6 @@ const ISPost = ({ post }: ISPostProps) => {
     setIsOpen(false);
   };
 
-  const handlePostComment = (e: any) => {
-    e.preventDefault();
-    if (isCommenting) return;
-    commentPost({ text, img, video });
-  };
-
   const handleLikePost = async () => {
     likePost();
     if (isLiked) {
@@ -88,17 +65,6 @@ const ISPost = ({ post }: ISPostProps) => {
     setIsLiked(!isLiked);
   };
   const [comments, setComments] = useState<Comment[]>([]); // إذا كنت تستخدم حالة للتعليقات
-
-  const handleMediaChange = (e: any, setMedia: Function) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader(); // قراءة الملف
-      reader.onload = () => {
-        setMedia(reader.result); // تعيين نتيجة القراءة إلى الحالة
-      };
-      reader.readAsDataURL(file);
-    }
-  };
   // end ALL handel faunction  ===================================================================================
 
   // UseEffect ===================================================================================================
@@ -113,10 +79,6 @@ const ISPost = ({ post }: ISPostProps) => {
       setComments(updatedPost.comments || []);
     }
   }, [updatedPost]);
-
-  useEffect(() => {
-    !text && !img && !video ? setDisabld(true) : setDisabld(false);
-  }, [text, img, video]);
   // UseEffect ===================================================================================================
 
   return (
@@ -202,15 +164,15 @@ const ISPost = ({ post }: ISPostProps) => {
             </div>
             <div className="flex justify-between mt-3">
               <div className="flex gap-4 items-center w-2/3 justify-between">
-                <div
+                <Link
+                  href={`/pages/Post/${post._id}`}
                   className="flex gap-1 items-center cursor-pointer group"
-                  onClick={() => setShowComments(!showComments)}
                 >
-                  <FaRegComment className="w-4 h-4 text-slate-500 group-hover:text-sky-400" />
-                  <span className="text-xs sm:text-sm text-slate-500 group-hover:text-sky-400">
+                  <FaRegComment className="w-4 h-4 text-slate-500 group-hover:text-blue-600" />
+                  <span className="text-xs sm:text-sm text-slate-500 group-hover:text-blue-600">
                     {comments.length}
                   </span>
-                </div>
+                </Link>
 
                 <div className="flex gap-1 items-center group cursor-pointer">
                   <BiRepost className="w-6 h-6 text-slate-500 group-hover:text-green-500" />
@@ -245,171 +207,6 @@ const ISPost = ({ post }: ISPostProps) => {
             </div>
           </div>
         </div>
-        {showComments && (
-          <section
-            id={`comments_modal${post._id}`}
-            className="w-full backdrop-blur-sm relative bg-[#16181c] p-4 mx-auto"
-          >
-            <h3 className="font-os text-lg font-bold">Comments</h3>
-
-            <div className="overflow-y-auto min-h-0 max-h-64">
-              {post.comments.length === 0 ? (
-                <p className="text-md mt-2 text-gray-400">
-                  No comments yet 🤔 Be the first one 😉
-                </p>
-              ) : (
-                post.comments.map((comment) => (
-                  <div key={comment._id} className="flex mt-4">
-                    <Link href={`/pages/Profile/${comment.user.username}`}>
-                      <div className="avatar">
-                        <div className="relative w-14 h-14 rounded-full">
-                          <Image
-                            fill
-                            alt="Post Image"
-                            className="h-80 object-contain rounded-full border border-gray-700"
-                            src={
-                              comment.user.ProfileImg ||
-                              "/avatars/avatar-placeholder.png"
-                            }
-                          />
-                        </div>
-                      </div>
-                    </Link>
-                    <div className="ml-3 w-full ">
-                      <Link href={`/pages/Profile/${comment.user.username}`}>
-                        <div className="font-medium text-white">
-                          {comment.user.fullname}
-                        </div>
-                        <div className="font-medium opacity-45 text-sm">
-                          @{comment.user.username}
-                        </div>
-                      </Link>
-                      <div className="mt-2 w-full text-white">
-                        {comment.text}
-                      </div>
-                      {comment.img && (
-                        <div className="relative  max-w-sm min-h-48 max-h-72  overflow-hidden">
-                          <Image
-                            fill
-                            alt="Image"
-                            src={comment.img}
-                            className="object-contain  w-full    rounded-lg border border-gray-700"
-                          />
-                        </div>
-                      )}
-                      {comment.video && (
-                        <div className="relative overflow-hidden">
-                          <video
-                            controls
-                            className="w-full  h-60  object-contain rounded-lg border border-gray-700"
-                          >
-                            <source src={comment.video} type="video/mp4" />
-                            Your browser does not support the video tag.
-                          </video>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-
-            <form
-              className="mt-4 pt-2 border-t-2 border-[#393a3a] "
-              onSubmit={handlePostComment}
-            >
-              {img && (
-                <div className="relative w-36  h-36 mx-auto">
-                  <IoCloseSharp
-                    className="absolute z-10 top-0 right-0 text-white bg-gray-800 rounded-full p-1 w-7 h-7 cursor-pointer"
-                    onClick={() => {
-                      setImg(null);
-                      ImgRef.current.value = null; // حذف رابط الصورة
-                    }}
-                  />
-                  <Image
-                    src={img}
-                    fill
-                    alt="img create post"
-                    className="mx-auto object-cover rounded"
-                  />
-                </div>
-              )}
-              {video && (
-                <div className="relative w-full h-60 mx-auto">
-                  <IoCloseSharp
-                    className="absolute z-10 top-0 right-0 text-white bg-gray-800 rounded-full p-1 w-7 h-7 cursor-pointer"
-                    onClick={() => {
-                      setVideo(null);
-                      VideoRef.current.value = null; // حذف رابط الفيديو
-                    }}
-                  />
-                  <video
-                    controls
-                    className="mx-auto object-contain rounded w-full h-full"
-                  >
-                    <source src={video} type="video/mp4" />
-                  </video>
-                </div>
-              )}
-
-              <div className="flex flex-row gap-2 items-center justify-between">
-                <div>
-                  <div className="flex gap-1 mt-2 items-center">
-                    <CiImageOn
-                      className="fill-primary w-6 h-6 cursor-pointer"
-                      onClick={() => {
-                        setVideo(null);
-                        ImgRef.current.click();
-                      }} // فتح نافذة اختيار الملفات
-                    />
-                    <BiVideo
-                      className="fill-primary w-6 h-6 cursor-pointer" // أيقونة الفيديو
-                      onClick={() => {
-                        setImg(null);
-                        VideoRef.current.click();
-                      }} // فتح نافذة اختيار الملفات للفيديو
-                    />
-                  </div>
-
-                  <input
-                    type="file"
-                    accept="image/*"
-                    hidden
-                    ref={ImgRef}
-                    onChange={(e) => handleMediaChange(e, setImg)}
-                  />
-                  <input
-                    type="file"
-                    accept="video/*"
-                    hidden
-                    ref={VideoRef}
-                    onChange={(e) => handleMediaChange(e, setVideo)}
-                  />
-                </div>
-
-                <div className="flex w-full items-center gap-2">
-                  <input
-                    id="comment"
-                    placeholder="Add a comment..."
-                    name="comment"
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                    className=" py-1  w-10/12 text-black mt-2  pl-2 outline-none rounded-full"
-                  ></input>
-
-                  <button
-                    type="submit"
-                    disabled={Disabld}
-                    className={`border-blue-600 ISdisabled mt-2 mr-4 lg:mr-0 md:mr-0 border-2 text-white font-medium py-2 px-6 rounded-full hover:transition-all hover:bg-blue-600`}
-                  >
-                    {isCommenting ? <LoadingSpinner size="md" /> : <IoSend />}
-                  </button>
-                </div>
-              </div>
-            </form>
-          </section>
-        )}
       </div>
 
       {isModalOpen && (
