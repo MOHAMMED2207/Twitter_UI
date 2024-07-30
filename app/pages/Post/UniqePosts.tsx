@@ -30,7 +30,7 @@ const UniquePost = () => {
     const fetchPost = async () => {
       try {
         const token = localStorage.getItem("jwt");
-        const res = await fetch(`https://twitter-backend-mauve.vercel.app/api/posts/${id}`, {
+        const res = await fetch(`http://localhost:5005/api/posts/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const UniquePost = () => {
   };
 
   return (
-     <div className="relative flex-[4_4_0]  mr-auto border-r pb-[50px] lg:pb-0 md:pb-0  overflow-auto border-gray-700 flex flex-col">
+    <div className="relative flex-[4_4_0]  h-[calc(100vh-57px)] lg:h-screen md:h-screen  mr-auto border-r    overflow-auto border-gray-700 flex flex-col">
       {loading && (
         <div className="flex flex-col justify-center">
           <PostSkeleton />
@@ -111,9 +111,9 @@ const UniquePost = () => {
       {post ? <ISPost post={post} /> : <p>Post not found</p>}
       <section
         id={`comments_modal${post?._id}`}
-        className="w-full backdrop-blur-sm  relative  p-4 pb-2 lg:pb-0 md:pb-0 mx-auto flex-grow flex flex-col"
+        className="w-full  backdrop-blur-sm  relative  p-0 pb-2 lg:pb-0 md:pb-0  mx-auto flex-grow flex flex-col"
       >
-        <div className="overflow-y-auto flex-grow pr-3 max-h-[39rem] pb-[12px] ">
+        <div className="overflow-y-auto flex-grow p-4 max-h-[39rem] pb-[12px] ">
           <h3 className="font-os text-lg font-bold">Comments</h3>
           {post?.comments.length === 0 ? (
             <p className="text-md mt-2 text-gray-400">
@@ -121,7 +121,7 @@ const UniquePost = () => {
             </p>
           ) : (
             post?.comments.map((comment) => (
-              <div key={comment._id} className="flex mt-4">
+              <div key={comment._id} className="flex mt-4 ">
                 <Link href={`/pages/Profile/${comment.user.username}`}>
                   <div className="avatar">
                     <div className="relative w-14 h-14 rounded-full">
