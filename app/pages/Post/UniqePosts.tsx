@@ -31,7 +31,7 @@ const UniquePost = () => {
     const fetchPost = async () => {
       try {
         const token = localStorage.getItem("jwt");
-        const res = await fetch(`http://localhost:5005/api/posts/${id}`, {
+        const res = await fetch(`https://twitter-backend-mauve.vercel.app/api/posts/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
