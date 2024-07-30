@@ -137,7 +137,9 @@ const ISPost = ({ post }: ISPostProps) => {
               )}
             </div>
             <div className="flex flex-col pt-2 overflow-hidden">
+              <div className="pb-2">
               <AutoResizeTextarea text={post.text} />
+              </div>
 
               {post.img && (
                 <div className="relative h-60 sm:h-96 overflow-hidden">
@@ -146,7 +148,7 @@ const ISPost = ({ post }: ISPostProps) => {
                     alt="Image"
                     src={post.img}
                     onClick={() => setIsModalOpen(post.img)}
-                    className="object-contain mt-[8px] rounded-lg border border-gray-700"
+                    className="object-contain  rounded-lg border border-gray-700"
                   />
                 </div>
               )}
@@ -154,7 +156,7 @@ const ISPost = ({ post }: ISPostProps) => {
                 <div className="relative   overflow-hidden">
                   <video
                     controls
-                    className="w-full mt-[8px] min-h-[30rem] max-h-[37rem] object-contain rounded-lg border border-gray-700"
+                    className="w-full  min-h-[30rem] max-h-[37rem] object-contain rounded-lg border border-gray-700"
                   >
                     <source src={post.video} type="video/mp4" />
                     Your browser does not support the video tag.
