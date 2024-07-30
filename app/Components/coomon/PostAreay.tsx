@@ -16,34 +16,25 @@ export const PostAreay = () => {
   };
 
   const handleScroll = () => {
-    if (scrollableDivRef.current) {
-      const { scrollTop } = scrollableDivRef.current;
-      if (scrollTop > 500) {
-        setShowIcon(true);
-      } else {
-        setShowIcon(false);
-      }
+    if (window.scrollY > 500) {
+      setShowIcon(true);
+    } else {
+      setShowIcon(false);
     }
   };
 
   useEffect(() => {
-    const scrollDiv = scrollableDivRef.current;
-    if (scrollDiv) {
-      scrollDiv.addEventListener("scroll", handleScroll);
-    }
-
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      if (scrollDiv) {
-        scrollDiv.removeEventListener("scroll", handleScroll);
-      }
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
-    <div className="relative flex-[4_4_0] mr-auto border-r pb-[60px] lg:pb-0 md:pb-0 border-gray-700 ">
+    <div className="relative flex-[4_4_0] mr-auto border-r pb-[60px] lg:pb-0 md:pb-0 border-gray-700">
       <div
         ref={scrollableDivRef}
-        className="relative flex-[4_4_0] mr-auto border-r  border-gray-700 overflow-y-auto"
+        className="relative flex-[4_4_0] mr-auto border-r border-gray-700 overflow-y-auto"
       >
         {/* Header */}
         <div className="flex w-full border-b border-gray-700">
@@ -76,8 +67,11 @@ export const PostAreay = () => {
         {/* POSTS */}
         <Posts feedType={feedType} scrollableDivRef={scrollableDivRef} />
       </div>
+      
       <div
-        className={`${showIcon ? "bottom-20" : "bottom-0"} hover:bg-blue-800 transition-all fixed  right-4 lg:right-8 lg:bottom-8 md:right-8 md:bottom-8 p-2 bg-blue-500 rounded-full cursor-pointer`}
+        className={`${
+          showIcon ? "bottom-20 lg:bottom-8 md:bottom-8" : "bottom-[-100px]"
+        } hover:bg-blue-800 transition-all fixed right-4 lg:right-8  md:right-8  p-2 bg-blue-500 rounded-full cursor-pointer`}
         onClick={scrollToCreatePost}
       >
         <IoIosCreate className="" size={30} />
