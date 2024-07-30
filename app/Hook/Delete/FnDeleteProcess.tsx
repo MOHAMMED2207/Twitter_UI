@@ -1,8 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 export const FnDeleteProcess = ({ post }: any) => {
   const queryClient = useQueryClient();
+  const router = useRouter();
+  const pathname = usePathname();
+  const { id } = useParams();
 
   const { mutate: deletePost, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
@@ -16,7 +20,6 @@ export const FnDeleteProcess = ({ post }: any) => {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
-
             },
             credentials: "include",
           }
@@ -32,8 +35,8 @@ export const FnDeleteProcess = ({ post }: any) => {
       }
     },
     onSuccess: async () => {
+      if (pathname === `/pages/Post/${id}`) router.back();
       toast.success("Post deleted successfully");
-      // حذف الإشعارات المرتبطة بالمنشور
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
   });
@@ -43,3 +46,4 @@ export const FnDeleteProcess = ({ post }: any) => {
     isDeleting,
   };
 };
+
