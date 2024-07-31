@@ -15,6 +15,7 @@ import LoadingSpinner from "../../Components/coomon/LoadingSpinner";
 import { FnUniqePosts } from "../../Hook/Posts/UniqePosts/FnUniqePosts";
 import { FnUpdatedPost } from "../../Hook/Posts/AutoUp/FnUpdate";
 import { useQueryClient } from "@tanstack/react-query";
+import AutoResizeTextarea from "../../Components/AutoResizeTextarea";
 
 const UniquePost = () => {
   const queryClient = useQueryClient();
@@ -90,7 +91,7 @@ const UniquePost = () => {
   // Handel Function Btn =================================================================================
 
   return (
-<>
+    <React.Fragment>
     <div className="relative flex-[4_4_0]  h-[calc(100vh-57px)] lg:h-screen md:h-screen  mr-auto border-r    overflow-auto border-gray-700 flex flex-col">
       {isLoading && (
         <div className="flex flex-col justify-center">
@@ -296,7 +297,7 @@ const UniquePost = () => {
 
 
 
-</>
+    </React.Fragment>
   );
 };
 
