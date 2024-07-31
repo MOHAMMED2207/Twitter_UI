@@ -1,4 +1,4 @@
-
+import { useQuery } from "@tanstack/react-query";
 export const FnUpdatedPost = (ID: any) => {
   const {
     data: updatedPost,
