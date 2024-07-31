@@ -11,7 +11,7 @@ export const FnCommentProcess = ({ post, setText, setImg, setVideo }: any) => {
         const token = localStorage.getItem("jwt");
 
         const res = await fetch(
-          `https://twitter-backend-mauve.vercel.app/api/post/comment/${post._id}`,
+          `http://localhost:5005/api/post/comment/${post._id}`,
           {
             method: "POST",
             headers: {
@@ -38,6 +38,7 @@ export const FnCommentProcess = ({ post, setText, setImg, setVideo }: any) => {
       setVideo(null); // إعادة تعيين حالة الفيديو
       toast.success("Comment posted successfully");
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["Pk_Posts"] });
     },
     onError: (error) => {
       toast.error(error.message);
