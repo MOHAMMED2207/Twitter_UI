@@ -13,8 +13,11 @@ import { CiImageOn } from "react-icons/ci";
 import { BiVideo } from "react-icons/bi";
 import LoadingSpinner from "../../Components/coomon/LoadingSpinner";
 import { FnUniqePosts } from "../../Hook/Posts/UniqePosts/FnUniqePosts";
+import { FnUpdatedPost } from "../../Hook/Posts/AutoUp/FnUpdate";
+import { useQueryClient } from "@tanstack/react-query";
 
 const UniquePost = () => {
+  const queryClient = useQueryClient();
   const { authUser } = useAuth();
   const router = useRouter();
   const { id } = useParams();
@@ -26,16 +29,9 @@ const UniquePost = () => {
   const [text, setText] = useState<string>("");
   const [Disabld, setDisabld] = useState(false);
 
+  // Function ============================================================================================
+  const { updatedPost, isError } = FnUpdatedPost(id);
   const { refetch, isLoading } = FnUniqePosts({ setPost, id });
-  
-  useEffect(() => {
-    if (id) {
-      refetch();
-    } else {
-      router.back();
-    }
-  }, [id, router]);
-
   const { commentPost, isCommenting } = FnCommentProcess({
     post,
     authUser,
@@ -43,17 +39,43 @@ const UniquePost = () => {
     setImg,
     setVideo,
   });
+  // Function ============================================================================================
+
+  // useEffect ===========================================================================================
+  useEffect(() => {
+    if (updatedPost) {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["Pk_Posts"] });
+    } else {
+      router.back();
+    }
+  }, [updatedPost, queryClient, id]);
+
+  useEffect(() => {
+    if (isError) {
+      router.back();
+    }
+  }, [isError, router]);
+
+  useEffect(() => {
+    if (id) {
+      refetch();
+    } else {
+      router.back();
+    }
+  }, [id, refetch, router]);
 
   useEffect(() => {
     !text && !img && !video ? setDisabld(true) : setDisabld(false);
   }, [text, img, video]);
+  // useEffect ===========================================================================================
 
+  // Handel Function Btn =================================================================================
   const handlePostComment = (e: any) => {
     e.preventDefault();
     if (isCommenting) return;
     commentPost({ text, img, video });
   };
-
   const handleMediaChange = (e: any, setMedia: Function) => {
     const file = e.target.files[0];
     if (file) {
@@ -64,6 +86,7 @@ const UniquePost = () => {
       reader.readAsDataURL(file);
     }
   };
+  // Handel Function Btn =================================================================================
 
   return (
     <div className="relative flex-[4_4_0]  h-[calc(100vh-57px)] lg:h-screen md:h-screen  mr-auto border-r    overflow-auto border-gray-700 flex flex-col">
@@ -232,7 +255,7 @@ const UniquePost = () => {
             <div className="w-10 h-10">
               {isCommenting ? (
                 <div className="w-full h-full flex items-center justify-center ">
-                <LoadingSpinner  />
+                  <LoadingSpinner />
                 </div>
               ) : (
                 <button
