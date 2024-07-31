@@ -28,6 +28,7 @@ const UniquePost = () => {
   const [video, setVideo] = useState<any>(null);
   const [text, setText] = useState<string>("");
   const [Disabld, setDisabld] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<string>("");
 
   // Function ============================================================================================
   const { updatedPost, isError } = FnUpdatedPost(id);
@@ -89,6 +90,7 @@ const UniquePost = () => {
   // Handel Function Btn =================================================================================
 
   return (
+<>
     <div className="relative flex-[4_4_0]  h-[calc(100vh-57px)] lg:h-screen md:h-screen  mr-auto border-r    overflow-auto border-gray-700 flex flex-col">
       {isLoading && (
         <div className="flex flex-col justify-center">
@@ -152,6 +154,7 @@ const UniquePost = () => {
                         fill
                         alt="Image"
                         src={comment.img}
+                        onClick={() => setIsModalOpen(comment.img)}
                         className="object-contain  w-full rounded-lg border border-gray-700"
                       />
                     </div>
@@ -273,6 +276,27 @@ const UniquePost = () => {
         </form>
       </section>
     </div>
+
+
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+          <div className="relative w-full h-full">
+           
+            <Image
+              onClick={() => setIsModalOpen("")}
+              fill
+              alt="Image"
+              src={isModalOpen}
+              className="object-contain"
+            />
+          </div>
+        </div>
+      )}
+
+
+
+
+</>
   );
 };
 
