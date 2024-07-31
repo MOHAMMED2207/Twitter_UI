@@ -146,9 +146,15 @@ const UniquePost = () => {
                       @{comment.user.username}
                     </div>
                   </Link>
-                  <div className="pb-2">
+
+ {comment.text&&(
+             <div className="pb-2">
                       <AutoResizeTextarea text={comment.text} />
                   </div>
+)}
+                 
+
+
                   {comment.img && (
                     <div className="relative max-w-sm min-h-48 max-h-72 overflow-hidden">
                       <Image
