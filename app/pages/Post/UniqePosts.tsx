@@ -3,22 +3,22 @@ import React, { useEffect, useRef, useState } from "react";
 import ISPost from "../../Components/coomon/ISPost";
 import PostSkeleton from "../../Components/skeletons/PostSkeleton";
 import { FaArrowLeft } from "react-icons/fa";
-import { UserObject_Type } from "@/app/Types/type";
+import { UserObject_Type } from "../../Types/type";
 import Image from "next/image";
 import Link from "next/link";
 import { IoCloseSharp, IoSend } from "react-icons/io5";
-import { FnCommentProcess } from "@/app/Hook/Posts/Comment/FnCommentProcess";
-import { useAuth } from "@/app/lib/Provider";
+import { FnCommentProcess } from "../../Hook/Posts/Comment/FnCommentProcess";
+import { useAuth } from "../../lib/Provider";
 import { CiImageOn } from "react-icons/ci";
 import { BiVideo } from "react-icons/bi";
-import LoadingSpinner from "@/app/Components/coomon/LoadingSpinner";
+import LoadingSpinner from "../../Components/coomon/LoadingSpinner";
+import { FnUniqePosts } from "../../Hook/Posts/UniqePosts/FnUniqePosts";
 
 const UniquePost = () => {
   const { authUser } = useAuth();
   const router = useRouter();
   const { id } = useParams();
   const [post, setPost] = useState<UserObject_Type>();
-  const [loading, setLoading] = useState(true);
   const ImgRef = useRef<any>(null);
   const VideoRef = useRef<any>(null);
   const [img, setImg] = useState<any>(null);
@@ -26,37 +26,11 @@ const UniquePost = () => {
   const [text, setText] = useState<string>("");
   const [Disabld, setDisabld] = useState(false);
 
+  const { refetch, isLoading } = FnUniqePosts({ setPost, id });
+  
   useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const token = localStorage.getItem("jwt");
-        const res = await fetch(`https://twitter-backend-mauve.vercel.app/api/posts/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          credentials: "include",
-        });
-
-        if (!res.ok) {
-          throw new Error("Post not found");
-        }
-
-        if (!res) {
-          throw new Error("Post not found");
-        }
-        const data = await res.json();
-        setPost(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching post:", error);
-        router.back;
-      }
-    };
-
     if (id) {
-      fetchPost();
+      refetch();
     } else {
       router.back();
     }
@@ -93,7 +67,7 @@ const UniquePost = () => {
 
   return (
     <div className="relative flex-[4_4_0]  h-[calc(100vh-57px)] lg:h-screen md:h-screen  mr-auto border-r    overflow-auto border-gray-700 flex flex-col">
-      {loading && (
+      {isLoading && (
         <div className="flex flex-col justify-center">
           <PostSkeleton />
           <PostSkeleton />
@@ -146,7 +120,9 @@ const UniquePost = () => {
                       @{comment.user.username}
                     </div>
                   </Link>
-                  <div className="mt-2 w-full pb-2 text-white">{comment.text}</div>
+                  <div className="mt-2 w-full pb-2 text-white">
+                    {comment.text}
+                  </div>
                   {comment.img && (
                     <div className="relative max-w-sm min-h-48 max-h-72 overflow-hidden">
                       <Image
@@ -255,7 +231,9 @@ const UniquePost = () => {
             </div>
             <div className="w-10 h-10">
               {isCommenting ? (
-                <LoadingSpinner size="6" />
+                <div className="w-full h-full flex items-center justify-center ">
+                <LoadingSpinner  />
+                </div>
               ) : (
                 <button
                   className={`w-full h-full bg-primary rounded-full text-white flex items-center justify-center ${
@@ -264,7 +242,7 @@ const UniquePost = () => {
                   type="submit"
                   disabled={Disabld}
                 >
-                  <IoSend />
+                  <IoSend size={20} />
                 </button>
               )}
             </div>
