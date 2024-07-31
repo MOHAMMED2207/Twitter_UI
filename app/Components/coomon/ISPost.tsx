@@ -137,9 +137,10 @@ const ISPost = ({ post }: ISPostProps) => {
               )}
             </div>
             <div className="flex flex-col pt-2 overflow-hidden">
-              <div className="pb-2">
-              <AutoResizeTextarea text={post.text} />
-              </div>
+               {post.text&&(
+             <div className="pb-2">
+                <AutoResizeTextarea text={post.text} />
+              </div>)}
 
               {post.img && (
                 <div className="relative h-60 sm:h-96 overflow-hidden">
