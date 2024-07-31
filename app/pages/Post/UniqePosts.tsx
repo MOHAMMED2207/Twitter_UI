@@ -1,4 +1,4 @@
-import { useParams, useRouter } from "next/navigation";
+ import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import ISPost from "../../Components/coomon/ISPost";
 import PostSkeleton from "../../Components/skeletons/PostSkeleton";
@@ -143,8 +143,8 @@ const UniquePost = () => {
                       @{comment.user.username}
                     </div>
                   </Link>
-                  <div className="mt-2 w-full pb-2 text-white">
-                    {comment.text}
+                  <div className="pb-2">
+                      <AutoResizeTextarea text={comment.text} />
                   </div>
                   {comment.img && (
                     <div className="relative max-w-sm min-h-48 max-h-72 overflow-hidden">
