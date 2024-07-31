@@ -1,24 +1,36 @@
-import { useQuery } from "@tanstack/react-query";
 
 export const FnUpdatedPost = (ID: any) => {
-  const { data: updatedPost, refetch } = useQuery({
+  const {
+    data: updatedPost,
+    error,
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ["post", ID],
     queryFn: async () => {
-      const token = localStorage.getItem("jwt");
+      try {
+        const token = localStorage.getItem("jwt");
       const res = await fetch(`https://twitter-backend-mauve.vercel.app/api/posts/${ID}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        credentials: "include",
-      });
-
-      const data = await res.json();
-      return data;
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include",
+        });
+        if (!res.ok) {
+          throw new Error("Post not found");
+        }
+        const data = await res.json();
+        return data;
+      } catch (error: any) {
+        console.log(error.message);
+        return null;
+      }
     },
-    refetchInterval: 5000, // جلب البيانات كل 10 ثواني
+    refetchInterval: 5000,
   });
 
-  return { updatedPost };
+  return { updatedPost, isError };
 };
+
