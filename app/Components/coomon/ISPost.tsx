@@ -71,11 +71,17 @@ const ISPost = ({ post }: ISPostProps) => {
     setIsLiked(!isLiked);
   };
 
-  const handleSavePost = () => {
+ const handleSavePost = () => {
     SavePost(); // استدعاء الدالة لحفظ المنشور
-    setISave(
-      Array.isArray(post.savedBy) && post.savedBy.includes(authUser?._id || "")
-    );
+
+    if (isLSave) {
+      setISave(
+        Array.isArray(post.savedBy) &&
+          post.savedBy.includes(authUser?._id || "")
+      );
+    }else{
+      setISave(!isLSave);
+    }
   };
   // end ALL handel faunction  ===================================================================================
 
