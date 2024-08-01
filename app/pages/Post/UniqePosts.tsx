@@ -123,7 +123,7 @@ const UniquePost = () => {
                     </div>
                   </div>
                 </Link>
-                <div className="ml-3 w-full bg-[#0c0c0c] rounded-md py-2 pl-2 ">
+                <div className="ml-3 w-full flex flex-col gap-4 bg-[#0c0c0c] rounded-md py-2 pl-2 ">
                   <Link href={`/pages/Profile/${comment.user.username}`}>
                     <div className="font-medium text-white">
                       {comment.user.fullname}
