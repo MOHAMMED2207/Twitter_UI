@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { FaRegComment, FaHeart, FaRegBookmark } from "react-icons/fa";
+import { FaRegComment, FaHeart, FaBookmark } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
-import { IoCloseSharp, IoSend } from "react-icons/io5";
 import LoadingSpinner from "./LoadingSpinner";
 import { formatPostDate } from "../../util/Date";
 import { FnLikeProcess } from "../../Hook/Posts/Likes/FnLikes";
@@ -14,6 +13,7 @@ import { useAuth } from "../../lib/Provider";
 import { ConfirmModel } from "../ConfirmModel";
 import AutoResizeTextarea from "../AutoResizeTextarea";
 import { FnUpdatedPost } from "../../Hook/Posts/AutoUp/FnUpdate";
+import { FnSavePost } from "../../Hook/Posts/SavePost/FnSavePost";
 
 interface Comment {
   user: string;
@@ -22,8 +22,6 @@ interface Comment {
   video?: string;
 }
 const ISPost = ({ post }: ISPostProps) => {
-  console.log(post);
-
   // Is all variabl and state and ref ==============================================================================
   // variabl
   const { authUser } = useAuth();
@@ -35,8 +33,14 @@ const ISPost = ({ post }: ISPostProps) => {
   const [Conffirm, setConffirm] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [likes, setLikes] = useState(post.likes);
+  const [comments, setComments] = useState<Comment[]>([]); // إذا كنت تستخدم حالة للتعليقات
+
   const [isLiked, setIsLiked] = useState(
     Array.isArray(post.likes) && post.likes.includes(authUser?._id || "")
+  );
+
+  const [isLSave, setISave] = useState(
+    Array.isArray(post.savedBy) && post.savedBy.includes(authUser?._id || "")
   );
   // Is all variabl and state and ref ==============================================================================
 
@@ -46,6 +50,8 @@ const ISPost = ({ post }: ISPostProps) => {
     post,
   });
   const { updatedPost } = FnUpdatedPost(post._id);
+  const { SavePost, isLSaveing } = FnSavePost({ post }); // استدعاء الدالة للحصول على SavePost
+
   // end ALL Hoks ==================================================================================================
 
   // start ALL handel faunction  ===================================================================================
@@ -64,7 +70,13 @@ const ISPost = ({ post }: ISPostProps) => {
     }
     setIsLiked(!isLiked);
   };
-  const [comments, setComments] = useState<Comment[]>([]); // إذا كنت تستخدم حالة للتعليقات
+
+  const handleSavePost = () => {
+    SavePost(); // استدعاء الدالة لحفظ المنشور
+    setISave(
+      Array.isArray(post.savedBy) && post.savedBy.includes(authUser?._id || "")
+    );
+  };
   // end ALL handel faunction  ===================================================================================
 
   // UseEffect ===================================================================================================
@@ -79,6 +91,12 @@ const ISPost = ({ post }: ISPostProps) => {
       setComments(updatedPost.comments || []);
     }
   }, [updatedPost]);
+
+  useEffect(() => {
+    setISave(
+      Array.isArray(post.savedBy) && post.savedBy.includes(authUser?._id || "")
+    );
+  }, [post.savedBy, authUser]);
   // UseEffect ===================================================================================================
 
   return (
@@ -137,10 +155,11 @@ const ISPost = ({ post }: ISPostProps) => {
               )}
             </div>
             <div className="flex flex-col pt-2 overflow-hidden">
-               {post.text&&(
-             <div>
-                <AutoResizeTextarea text={post.text} />
-              </div>)}
+              {post.text && (
+                <div className="">
+                  <AutoResizeTextarea text={post.text} />
+                </div>
+              )}
 
               {post.img && (
                 <div className="relative h-60 sm:h-96 overflow-hidden">
@@ -183,6 +202,7 @@ const ISPost = ({ post }: ISPostProps) => {
                     0
                   </span>
                 </div>
+
                 <button
                   className="flex gap-1 items-center group cursor-pointer"
                   onClick={handleLikePost}
@@ -205,7 +225,19 @@ const ISPost = ({ post }: ISPostProps) => {
                 </button>
               </div>
               <div className="flex w-1/3 justify-end gap-2 items-center">
-                <FaRegBookmark className="w-4 h-4 text-slate-500 cursor-pointer" />
+                <button
+                  className="flex gap-1 items-center group cursor-pointer"
+                  onClick={handleSavePost}
+                >
+                  {isLSaveing && <LoadingSpinner size="sm" />}
+
+                  {!isLSave && !isLSaveing && (
+                    <FaBookmark className="w-4 h-4 cursor-pointer text-slate-500 group-hover:text-[#e99c09]" />
+                  )}
+                  {isLSave && !isLSaveing && (
+                    <FaBookmark className="w-4 h-4 cursor-pointer text-[#e99c09] " />
+                  )}
+                </button>
               </div>
             </div>
           </div>
@@ -215,7 +247,6 @@ const ISPost = ({ post }: ISPostProps) => {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
           <div className="relative w-full h-full">
-           
             <Image
               onClick={() => setIsModalOpen("")}
               fill
