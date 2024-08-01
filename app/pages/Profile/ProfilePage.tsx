@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { IoCalendarOutline } from "react-icons/io5";
-import { FaLink } from "react-icons/fa";
+import { FaBookmark, FaLink } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
 import Posts from "../../Components/coomon/Posts";
@@ -28,7 +28,10 @@ const ProfilePage = () => {
   // ============================================================================
   const [showFollowers, setshowFollowers] = useState(false);
   const [showFollowing, setshowFollowing] = useState(false);
+  const [showSavedPosts, setShowSavedPosts] = useState(false);
   const [showType, setshowType] = useState("");
+  const [Savelength, setSavelength] = useState(0);
+
   // ============================================================================
 
   const [coverImg, setCoverImg] = useState<any>(null);
@@ -63,6 +66,10 @@ const ProfilePage = () => {
   }, [username, refetch]);
 
   useEffect(() => {
+    setSavelength(authUser?.savedPosts.length);
+  }, [authUser?.savedPosts.length, authUser]);
+
+  useEffect(() => {
     if (isSuccess) {
       refetch();
     }
@@ -74,10 +81,10 @@ const ProfilePage = () => {
   const LengthPost = posts?.length > 0 ? posts?.length : 0;
 
   return (
-    <div className=" w-full overflow-auto">
+    <div className="w-full overflow-auto">
       <div
         ref={scrollableDivRefProfile}
-        className="flex-[4_4_0] pb-[60px] lg:pb-0 md:pb-0  border-r border-gray-700 min-h-screen "
+        className="flex-[4_4_0] pb-[60px] lg:pb-0 md:pb-0 border-r border-gray-700 min-h-screen "
       >
         {/* HEADER */}
         {(isLoading || isRefetching) && <ProfileHeaderSkeleton />}
@@ -259,6 +266,23 @@ const ProfilePage = () => {
                     </div>
                   </div>
                 </div>
+
+                <Link
+                  href={"/pages/SavePost"}
+                  className="flex gap-1 items-center"
+                >
+                  <FaBookmark
+                    size={30}
+                    className="cursor-pointer text-[#e99c09] "
+                  />
+                  <div>
+                    <span className="font-bold pr-1 text-[31px] text-slate-500">
+                      {Savelength}
+                    </span>
+
+                    <span className="text-slate-500  text-xs">Post Save</span>
+                  </div>
+                </Link>
               </div>
 
               <div className="flex w-full border-b border-gray-700 mt-4">
