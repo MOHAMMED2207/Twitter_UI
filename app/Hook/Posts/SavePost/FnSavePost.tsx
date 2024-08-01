@@ -30,6 +30,8 @@ export const FnSavePost = ({ post }: any) => {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+
       // طباعة الرسالة التي تعود من الـ API في toast
       toast.success(data.message);
     },
