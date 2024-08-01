@@ -9,7 +9,7 @@ export const FnSavePost = ({ post }: any) => {
         const token = localStorage.getItem("jwt");
 
         const res = await fetch(
-          `http://localhost:5005/api/post/Save/${post._id}`,
+          `https://twitter-backend-mauve.vercel.app/api/post/Save/${post._id}`,
           {
             method: "POST",
             headers: {
