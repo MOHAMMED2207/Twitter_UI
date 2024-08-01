@@ -71,15 +71,14 @@ const ISPost = ({ post }: ISPostProps) => {
     setIsLiked(!isLiked);
   };
 
- const handleSavePost = () => {
+  const handleSavePost = () => {
     SavePost(); // استدعاء الدالة لحفظ المنشور
-
     if (isLSave) {
       setISave(
         Array.isArray(post.savedBy) &&
           post.savedBy.includes(authUser?._id || "")
       );
-    }else{
+    } else {
       setISave(!isLSave);
     }
   };
@@ -93,16 +92,15 @@ const ISPost = ({ post }: ISPostProps) => {
         Array.isArray(updatedPost.likes) &&
           updatedPost.likes.includes(authUser?._id || "")
       );
+      setISave(
+        Array.isArray(post.savedBy) &&
+          post.savedBy.includes(authUser?._id || "")
+      );
       // تحديث التعليقات بشكل مباشر إذا كانت الخصائص موجودة
       setComments(updatedPost.comments || []);
     }
-  }, [updatedPost]);
+  }, [updatedPost, post.savedBy, authUser?._id, post._id]);
 
-  useEffect(() => {
-    setISave(
-      Array.isArray(post.savedBy) && post.savedBy.includes(authUser?._id || "")
-    );
-  }, [post.savedBy, authUser]);
   // UseEffect ===================================================================================================
 
   return (
