@@ -32,7 +32,7 @@ const UniquePost = () => {
   const [isModalOpen, setIsModalOpen] = useState<string>("");
 
   // Function ============================================================================================
-  const { updatedPost, isError } = FnUpdatedPost(id);
+  const { updatedPost } = FnUpdatedPost(id);
   const { refetch, isLoading } = FnUniqePosts({ setPost, id });
   const { commentPost, isCommenting } = FnCommentProcess({
     post,
@@ -52,21 +52,7 @@ const UniquePost = () => {
       router.back();
     }
   }, [updatedPost, queryClient, id]);
-
-  useEffect(() => {
-    if (isError) {
-      router.back();
-    }
-  }, [isError, router]);
-
-  useEffect(() => {
-    if (id) {
-      refetch();
-    } else {
-      router.back();
-    }
-  }, [id, refetch, router]);
-
+ 
   useEffect(() => {
     !text && !img && !video ? setDisabld(true) : setDisabld(false);
   }, [text, img, video]);
