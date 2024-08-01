@@ -18,6 +18,7 @@ export type IPost = {
   img: null;
   video: string;
   likes: string[];
+  savedBy: string[];
   comments: ICommentsItem[];
   createdAt: string;
   updatedAt: string;
@@ -81,7 +82,7 @@ export type UserObject_Type = {
   comments: ICommentsItems[];
   img: string;
   video: string;
-
+  savedBy: string[];
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -153,63 +154,63 @@ export type FormDataUpdateProfile = {
 
 // @flow
 export type IRootObjectModelNotification = {
-  _id: string
-  from: IFromModelNotification
-  post: IPostModelNotification
-  to: string
-  type: string
-  read: boolean
-  createdAt: string
-  updatedAt: string
-  __v: number
-}
+  _id: string;
+  from: IFromModelNotification;
+  post: IPostModelNotification;
+  to: string;
+  type: string;
+  read: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
 export type IFromModelNotification = {
-  _id: string
-  fullname: string
-  username: string
-  Phone: string
-  email: string
-  Password: string
-  role: string
-  followers: string[]
-  following: string[]
-  likedPosts: string[]
-  __v: number
-  updatedAt: string
-  CoverImg: string
-  ProfileImg: string
-}
+  _id: string;
+  fullname: string;
+  username: string;
+  Phone: string;
+  email: string;
+  Password: string;
+  role: string;
+  followers: string[];
+  following: string[];
+  likedPosts: string[];
+  __v: number;
+  updatedAt: string;
+  CoverImg: string;
+  ProfileImg: string;
+};
 export type IPostModelNotification = {
-  _id: string
-  user: IUser
-  text: string
-  img: string
-  video: null
-  likes: string[]
-  comments: any[]
-  createdAt: string
-  updatedAt: string
-  __v: number
-}
+  _id: string;
+  user: IUser;
+  text: string;
+  img: string;
+  video: null;
+  likes: string[];
+  comments: any[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
 export type IUserModelNotification = {
-  _id: string
-  username: string
-  age: number
-  country: string
-  city: string
-  Phone: string
-  email: string
-  Password: string
-  role: string
-  followers: string[]
-  following: string[]
-  ProfileImg: string
-  CoverImg: string
-  bio: string
-  link: string
-  __v: number
-  likedPosts: string[]
-  fullname: string
-  createdAt: string
-  updatedAt: string
-}
+  _id: string;
+  username: string;
+  age: number;
+  country: string;
+  city: string;
+  Phone: string;
+  email: string;
+  Password: string;
+  role: string;
+  followers: string[];
+  following: string[];
+  ProfileImg: string;
+  CoverImg: string;
+  bio: string;
+  link: string;
+  __v: number;
+  likedPosts: string[];
+  fullname: string;
+  createdAt: string;
+  updatedAt: string;
+};
