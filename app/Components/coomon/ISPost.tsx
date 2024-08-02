@@ -40,7 +40,8 @@ const ISPost = ({ post }: ISPostProps) => {
   );
 
   const [isLSave, setISave] = useState(
-    Array.isArray(post.savedBy) && post.savedBy.includes(authUser?._id || "")
+    Array.isArray(authUser.savedPosts) &&
+      authUser.savedPosts.includes(post?._id || "")
   );
   // Is all variabl and state and ref ==============================================================================
 
@@ -73,14 +74,10 @@ const ISPost = ({ post }: ISPostProps) => {
 
   const handleSavePost = () => {
     SavePost(); // استدعاء الدالة لحفظ المنشور
-    if (isLSave) {
-      setISave(
-        Array.isArray(post.savedBy) &&
-          post.savedBy.includes(authUser?._id || "")
-      );
-    } else {
-      setISave(!isLSave);
-    }
+    setIsLiked(
+      Array.isArray(authUser.savedPosts) &&
+        authUser.savedPosts.includes(post?._id || "")
+    );
   };
   // end ALL handel faunction  ===================================================================================
 
@@ -93,8 +90,8 @@ const ISPost = ({ post }: ISPostProps) => {
           updatedPost.likes.includes(authUser?._id || "")
       );
       setISave(
-        Array.isArray(post.savedBy) &&
-          post.savedBy.includes(authUser?._id || "")
+        Array.isArray(authUser.savedPosts) &&
+          authUser.savedPosts.includes(updatedPost._id || "")
       );
       // تحديث التعليقات بشكل مباشر إذا كانت الخصائص موجودة
       setComments(updatedPost.comments || []);
