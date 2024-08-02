@@ -81,10 +81,10 @@ const SignInPage = () => {
                 )}
               </button>
             </label>
-            <div className="flex w-full  flex-col gap-2 items-center justify-center ">
+            <div className="flex w-full   flex-col gap-2 items-center justify-center ">
               <GoogleLoginButton />
 
-              <div className="flex justify-center w-2/3 items-center">
+              <div className="flex justify-center w-full lg:w-2/3 items-center">
                 <span className="bg-[#565555] w-full h-[1px]"></span>
                 <span className="px-2">or</span>
                 <span className="bg-[#565555] w-full h-[1px]"></span>
@@ -92,11 +92,12 @@ const SignInPage = () => {
 
               <button
                 className="relative flex
-              rounded-3xl py-1 hover:transition-all ease-in-out 0 w-3/4 
+                w-full lg:w-3/4   
+              rounded-3xl py-1 hover:transition-all ease-in-out 0 
                items-center justify-center overflow-hidden bg-black border-2 border-[#1d9bf0] text-white shadow-2xl hover:border-black  transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-[#1d9bf0] before:duration-500 before:ease-out hover:shadow-[#1d9bf0] hover:before:h-56 hover:before:w-full"
               >
                 {isPending ? (
-                  <div className=" w-3/4 h-6 relative  flex justify-center items-center ">
+                  <div className=" w-full lg:w-3/4 h-6 relative  flex justify-center items-center ">
                     <HashLoader
                       color="#1d9bf0"
                       className="w-full absolute items-center "
@@ -116,7 +117,7 @@ const SignInPage = () => {
               </div>
             )}
           </form>
-          <div className="flex w-3/4 flex-col  gap-2 mt-4">
+          <div className="flex w-full lg:w-3/4 flex-col  gap-2 mt-4">
             <div className="flex items-center justify-center w-full">
               <p className="text-white font-bold m-auto text-lg flex text-center">
                 Don't Have An Account ?
