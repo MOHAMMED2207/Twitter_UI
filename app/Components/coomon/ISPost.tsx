@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FaRegComment, FaHeart, FaBookmark } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import LoadingSpinner from "./LoadingSpinner";
-import { formatPostDate } from "../../util/Date";
+import { formatNumber, formatPostDate } from "../../util/Date";
 import { FnLikeProcess } from "../../Hook/Posts/Likes/FnLikes";
 import { FnDeleteProcess } from "../../Hook/Delete/FnDeleteProcess";
 import { ISPostProps } from "../../Types/type";
@@ -193,14 +193,14 @@ const ISPost = ({ post }: ISPostProps) => {
                 >
                   <FaRegComment className="w-4 h-4 text-slate-500 group-hover:text-blue-600" />
                   <span className="text-xs sm:text-sm text-slate-500 group-hover:text-blue-600">
-                    {comments.length}
+                    {formatNumber(comments.length)}
                   </span>
                 </Link>
 
                 <div className="flex gap-1 items-center group cursor-pointer">
                   <BiRepost className="w-6 h-6 text-slate-500 group-hover:text-green-500" />
                   <span className="text-xs sm:text-sm text-slate-500 group-hover:text-green-500">
-                    0
+                    {formatNumber(0)}
                   </span>
                 </div>
 
@@ -221,7 +221,7 @@ const ISPost = ({ post }: ISPostProps) => {
                       isLiked ? "text-red-600" : "text-slate-500"
                     }`}
                   >
-                    {likes.length}
+                    {formatNumber(likes.length)}
                   </span>
                 </button>
               </div>
