@@ -12,6 +12,7 @@ import { LogoutAuth } from "../../Hook/Auth/LogoutAuth";
 import { useEffect, useState } from "react";
 import { IUsers } from "../../Types/type";
 import { useFetchNotifications } from "../../Hook/Notifaction/useFetchNotifications";
+import { formatNumber } from "../../util/Date";
 
 const Sidebar = () => {
   const { data: authUser } = useQuery<IUsers>({ queryKey: ["authUser"] });
@@ -84,7 +85,7 @@ const Sidebar = () => {
                   />
                   {prevUnreadCount > 0 && (
                     <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 py-0 text-xs">
-                      {prevUnreadCount}
+                      {formatNumber(prevUnreadCount)}
                     </span>
                   )}
                 </div>
@@ -192,7 +193,7 @@ const Sidebar = () => {
             />
             {prevUnreadCount > 0 && (
               <span className="absolute -top-2 right-2 bg-red-500 text-white rounded-full px-2 py-0 text-xs">
-                {prevUnreadCount}
+                {formatNumber(prevUnreadCount)}
               </span>
             )}
             <span className="text-xs text-white">Notifications</span>
