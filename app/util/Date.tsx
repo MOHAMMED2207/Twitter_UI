@@ -45,3 +45,19 @@ export const formatMemberSinceDate = (createdAt: any) => {
   const year = date.getFullYear();
   return `Joined ${month} ${year}`;
 };
+
+
+
+export function formatNumber(value: number): string {
+  if (value < 1000) {
+    return value.toString();
+  } else if (value < 1000000) {
+    return (value / 1000).toFixed(value % 1000 === 0 ? 0 : 1) + "k";
+  } else if (value < 1000000000) {
+    return (value / 1000000).toFixed(value % 1000000 === 0 ? 0 : 1) + "m";
+  } else if (value < 1000000000000) {
+    return (value / 1000000000).toFixed(value % 1000000000 === 0 ? 0 : 1) + "b";
+  } else {
+    return (value / 1000000000000).toFixed(value % 1000000000000 === 0 ? 0 : 1) + "t";
+  }
+}
