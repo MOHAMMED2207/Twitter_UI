@@ -14,6 +14,7 @@ import { ConfirmModel } from "../ConfirmModel";
 import AutoResizeTextarea from "../AutoResizeTextarea";
 import { FnUpdatedPost } from "../../Hook/Posts/AutoUp/FnUpdate";
 import { FnSavePost } from "../../Hook/Posts/SavePost/FnSavePost";
+import { IoIosCheckmark } from "react-icons/io";
 
 interface Comment {
   user: string;
@@ -236,7 +237,12 @@ const ISPost = ({ post }: ISPostProps) => {
                     <FaBookmark className="w-4 h-4 cursor-pointer text-slate-500 group-hover:text-[#e99c09]" />
                   )}
                   {isLSave && !isLSaveing && (
-                    <FaBookmark className="w-4 h-4 cursor-pointer text-[#e99c09] " />
+                    <div className="relative flex">
+                      <div className="rounded-full w-[17px] h-[17px] flex justify-center items-center absolute left-[-10px]  bottom-[-9px]  bg-black">
+                        <IoIosCheckmark size={25} color="#e99c09" />
+                      </div>
+                      <FaBookmark size={19} className="  text-[#e99c09] " />
+                    </div>
                   )}
                 </button>
               </div>
