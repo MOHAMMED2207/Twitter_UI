@@ -141,7 +141,7 @@ const SignUpPage = () => {
               </div>
             )}
           </form>
-          <div className="flex flex-col  w-full  lg:w-2/3 gap-2 mt-4">
+          <div className="flex flex-col  w-full  lg:w-3/4 gap-2 mt-4">
             <div className="flex items-center justify-center w-full">
               <p className="text-white font-bold text-lg text-center">
                 Already have an account?
