@@ -28,7 +28,6 @@ const ProfilePage = () => {
   // ============================================================================
   const [showFollowers, setshowFollowers] = useState(false);
   const [showFollowing, setshowFollowing] = useState(false);
-  const [showSavedPosts, setShowSavedPosts] = useState(false);
   const [showType, setshowType] = useState("");
   const [Savelength, setSavelength] = useState(0);
 
@@ -268,7 +267,7 @@ const ProfilePage = () => {
                 </div>
 
                 <Link
-                  href={"/pages/SavePost"}
+                  href={`/pages/SavePost/${authUser.username}`}
                   className="flex gap-1 items-center"
                 >
                   <FaBookmark
@@ -312,7 +311,6 @@ const ProfilePage = () => {
               feedType={feedType}
               scrollableDivRefProfile={scrollableDivRefProfile}
               username={username}
-              userId={user?._id}
             />
           )}
         </div>
