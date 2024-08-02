@@ -118,7 +118,7 @@ const SignUpPage = () => {
               </button>
             </label>
             <div className="flex items-center justify-center w-full">
-              <button className="relative flex rounded-3xl py-1 hover:transition-all ease-in-out w-full sm:w-3/4 items-center justify-center overflow-hidden bg-black border-2 border-[#1d9bf0] text-white shadow-2xl hover:border-black transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-[#1d9bf0] before:duration-500 before:ease-out hover:shadow-[#1d9bf0] hover:before:h-56 hover:before:w-full">
+              <button className="relative flex rounded-3xl py-1 hover:transition-all ease-in-out w-full lg:w-3/4 items-center justify-center overflow-hidden bg-black border-2 border-[#1d9bf0] text-white shadow-2xl hover:border-black transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-[#1d9bf0] before:duration-500 before:ease-out hover:shadow-[#1d9bf0] hover:before:h-56 hover:before:w-full">
                 {isPending ? (
                   <div className="w-full h-6 relative flex justify-center items-center">
                     <HashLoader
@@ -141,7 +141,7 @@ const SignUpPage = () => {
               </div>
             )}
           </form>
-          <div className="flex flex-col  w-3/4  lg:w-2/3 gap-2 mt-4">
+          <div className="flex flex-col  w-full  lg:w-2/3 gap-2 mt-4">
             <div className="flex items-center justify-center w-full">
               <p className="text-white font-bold text-lg text-center">
                 Already have an account?
