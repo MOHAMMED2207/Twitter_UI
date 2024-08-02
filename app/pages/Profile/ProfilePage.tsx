@@ -265,23 +265,24 @@ const ProfilePage = () => {
                     </div>
                   </div>
                 </div>
+                {isMyProfile && (
+                  <Link
+                    href={`/pages/SavePost/${authUser.username}`}
+                    className="flex gap-1 items-center"
+                  >
+                    <FaBookmark
+                      size={30}
+                      className="cursor-pointer text-[#e99c09] "
+                    />
+                    <div>
+                      <span className="font-bold pr-1 text-[31px] text-slate-500">
+                        {Savelength}
+                      </span>
 
-                <Link
-                  href={`/pages/SavePost/${authUser.username}`}
-                  className="flex gap-1 items-center"
-                >
-                  <FaBookmark
-                    size={30}
-                    className="cursor-pointer text-[#e99c09] "
-                  />
-                  <div>
-                    <span className="font-bold pr-1 text-[31px] text-slate-500">
-                      {Savelength}
-                    </span>
-
-                    <span className="text-slate-500  text-xs">Post Save</span>
-                  </div>
-                </Link>
+                      <span className="text-slate-500  text-xs">Post Save</span>
+                    </div>
+                  </Link>
+                )}
               </div>
 
               <div className="flex w-full border-b border-gray-700 mt-4">
