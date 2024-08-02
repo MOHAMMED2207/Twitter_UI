@@ -11,7 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MyProfile } from "../../Hook/Profile/MyProfile";
 import { GetAllPosts } from "../../Hook/Posts/GetPostesAllFeedTypes/GetAllPosts";
-import { formatMemberSinceDate } from "../../util/Date";
+import { formatMemberSinceDate, formatNumber } from "../../util/Date";
 import ProfileHeaderSkeleton from "../../Components/skeletons/ProfileHeaderSkeleton";
 import EditProfileModal from "./../../Hook/Profile/EditProfileModal";
 import { useUpdateUserProfile } from "../../Hook/Profile/updateProfile";
@@ -100,7 +100,7 @@ const ProfilePage = () => {
                 <div className="flex flex-col">
                   <p className="font-bold text-lg">{user?.username}</p>
                   <span className="text-sm text-slate-500">
-                    {LengthPost} Posts
+                    {formatNumber(LengthPost)} Posts
                   </span>
                 </div>
               </div>
@@ -225,7 +225,7 @@ const ProfilePage = () => {
                 <div className="flex gap-2">
                   <div className="flex gap-1 items-center">
                     <span className="font-bold text-xs">
-                      {user?.following.length}
+                      {formatNumber(user?.following.length)}
                     </span>
                     <div className="relative">
                       <button
@@ -245,7 +245,7 @@ const ProfilePage = () => {
                   </div>
                   <div className="flex gap-1 items-center">
                     <span className="font-bold text-xs">
-                      {user?.followers.length}
+                      {formatNumber(user?.followers.length)}
                     </span>
 
                     <div className="relative">
@@ -276,7 +276,7 @@ const ProfilePage = () => {
                     />
                     <div>
                       <span className="font-bold pr-1 text-[31px] text-slate-500">
-                        {Savelength}
+                        {formatNumber(Savelength)}
                       </span>
 
                       <span className="text-slate-500  text-xs">Post Save</span>
