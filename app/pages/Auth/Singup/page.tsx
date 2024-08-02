@@ -149,7 +149,7 @@ const SignUpPage = () => {
             </div>
             <Link
               href="/"
-              className=" border-0 bg-[#11517c] rounded-full flex items-center justify-center px-4 py-2"
+              className=" border-0 bg-[#1d9bf0] rounded-full flex items-center justify-center px-4 py-2"
             >
               <div className="text-white text-center font-bold flex items-center justify-center">
                 <span className="overflow-clip whitespace-nowrap">Sign In</span>
