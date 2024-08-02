@@ -9,7 +9,7 @@ const GoogleLoginButton = () => {
 
   return (
     <button
-      className="gsi-material-button rounded-3xl  w-3/4
+      className="gsi-material-button rounded-3xl  w-full lg:w-3/4
     items-center justify-center "
       onClick={handleGoogleLogin}
       disabled={isPending} // Disable button when pending
