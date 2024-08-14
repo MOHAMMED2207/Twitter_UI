@@ -23,7 +23,7 @@ const MyFollowing = ({ type }: any) => {
 
   return (
     <div className="absolute rounded-lg z-[999999] p-4 bg-[#16181c]">
-      <form className="relative border-b-2 border-[#2d2d2d] pb-2   flex justify-between items-center gap-2">
+      <form className="relative border-b-2 border-[#2d2d2d] pb-2 flex justify-between items-center gap-2">
         <input
           type="text"
           value={searchTerm}
@@ -33,18 +33,24 @@ const MyFollowing = ({ type }: any) => {
         />
         <button
           type="button"
-          className="absolute right-0  border-2 w-10 h-10 flex justify-center items-center  rounded-full bg-[#16181C] text-white"
+          className="absolute right-0 border-2 w-10 h-10 flex justify-center items-center rounded-full bg-[#16181C] text-white"
         >
           <FaSearch />
         </button>
       </form>
       <div className="overflow-auto max-h-56 w-full">
         {isLoading && <RightPanelSkeleton />}
+        {!isLoading && filteredUsers.length === 0 && (
+          <div className="text-white text-center mt-4">
+            No one is following you or you are not following anyone.
+          </div>
+        )}
         {!isLoading &&
-          filteredUsers?.map((user: any) => (
+          filteredUsers.length > 0 &&
+          filteredUsers.map((user: any) => (
             <Link
               href={`/pages/Profile/${user.username}`}
-              className="flex items-center py-2 border-b-2 border-[#2d2d2d]  justify-between gap-4 mb-2"
+              className="flex items-center py-2 border-b-2 border-[#2d2d2d] justify-between gap-4 mb-2"
               key={user._id}
             >
               <div className="flex gap-2 items-center">
