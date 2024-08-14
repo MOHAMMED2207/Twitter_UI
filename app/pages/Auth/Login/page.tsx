@@ -13,8 +13,12 @@ import GoogleLoginButton from "../../../Components/GoogleLoginButton";
 const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    Password: "",
-    email: "",
+    Password: "123123Test",
+    email: "
+
+Tester@gmail.com
+
+",
   });
 
   const { mutate, isError, isPending, error } = LoginAuth({ setFormData });
