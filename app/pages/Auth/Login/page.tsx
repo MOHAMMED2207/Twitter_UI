@@ -13,7 +13,7 @@ import GoogleLoginButton from "../../../Components/GoogleLoginButton";
 const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    Password: "123123Test",
+    Password: "",
     email: "",
   });
 
@@ -55,7 +55,7 @@ const SignInPage = () => {
                 placeholder="Please enter your email"
                 name="email"
                 onChange={handleInputChange}
-                value={formData.email || "Tester@gmail.com"}
+                value={formData.email || "Tester@Gmail.com"}
               />
             </label>
 
@@ -67,7 +67,7 @@ const SignInPage = () => {
                 placeholder="Please enter your password"
                 name="Password"
                 onChange={handleInputChange}
-                value={formData.Password}
+                value={formData.Password || "123123Test"}
               />
               <button
                 type="button"
