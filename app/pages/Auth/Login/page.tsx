@@ -14,11 +14,7 @@ const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     Password: "123123Test",
-    email: "
-
-Tester@gmail.com
-
-",
+    email: "",
   });
 
   const { mutate, isError, isPending, error } = LoginAuth({ setFormData });
@@ -59,7 +55,7 @@ Tester@gmail.com
                 placeholder="Please enter your email"
                 name="email"
                 onChange={handleInputChange}
-                value={formData.email}
+                value={formData.email || "Tester@gmail.com"}
               />
             </label>
 
