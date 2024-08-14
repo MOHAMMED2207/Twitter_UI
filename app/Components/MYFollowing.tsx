@@ -59,10 +59,10 @@ const MyFollowing = ({ type }: any) => {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-semibold tracking-tight truncate w-38">
+                  <span className="font-semibold tracking-tight truncate w-32">
                     {user.fullname}
                   </span>
-                  <span className="text-sm text-slate-500 truncate w-38">
+                  <span className="text-sm text-slate-500 truncate w-32">
                     @{user.username}
                   </span>
                 </div>
