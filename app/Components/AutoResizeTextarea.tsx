@@ -23,6 +23,7 @@ const AutoResizeTextarea = ({ text }: any) => {
     <div >
       <div className=" w-full flex justify-end items-end" >
         <textarea
+          onClick={toggleExpand}
           ref={textareaRef}
           className="resize-none pt-2 outline-none text-sm bg-[#0f101100] w-full sm:text-base"
           value={displayText}
