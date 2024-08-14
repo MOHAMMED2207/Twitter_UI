@@ -40,11 +40,15 @@ const MyFollowing = ({ type }: any) => {
       </form>
       <div className="overflow-auto max-h-56 w-full">
         {isLoading && <RightPanelSkeleton />}
-        {!isLoading && filteredUsers.length === 0 && (
+        {!isLoading && filteredUsers.length === 0 && type === "Following" && (
           <div className="text-white text-center mt-4">
-            No one is following you or you are not following anyone.
-          </div>
-        )}
+            There is no one following him.
+          </div>)}
+           {!isLoading && filteredUsers.length === 0 && type === "Followers" && (
+              <div className="text-white text-center mt-4">
+                No one is following you.
+              </div>)}
+
         {!isLoading &&
           filteredUsers.length > 0 &&
           filteredUsers.map((user: any) => (
@@ -65,10 +69,10 @@ const MyFollowing = ({ type }: any) => {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-semibold tracking-tight truncate w-32">
+                  <span className="font-semibold tracking-tight truncate w-36">
                     {user.fullname}
                   </span>
-                  <span className="text-sm text-slate-500 truncate w-32">
+                  <span className="text-sm text-slate-500 truncate w-36">
                     @{user.username}
                   </span>
                 </div>
